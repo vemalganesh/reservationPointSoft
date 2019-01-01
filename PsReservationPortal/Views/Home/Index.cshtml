@@ -1,31 +1,65 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Reservation Portal";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<style type="text/css">
+.bg-cover { 
+    background-size: cover; 
+    color: white; 
+    background-position: center center; 
+    position: relative; 
+    z-index: -2;
+    background-image: url('http://lorempixel.com/400/200/food'); }
+    h1 {
+        color: #FFF;
+        text-shadow: 2px 2px #000;
+    }
+    .jumbotron{
+        padding-top:32px;
+        padding-bottom:32px;
+    }
+    .jumbotron p{
+        text-shadow: 1px 1px #101c4b;
+    }
+</style>
+
+<div class="jumbotron bg-cover">
+    <h1 class="display-3 mb-1">Pointsoft Reservation Portal</h1>
+    <p class="lead">Restaurant reservation site for Pointsoft POS System users</p>
+    <hr class="my-4">
+    @*<p>This service is provided free to all our customer.</p>*@
+    <p>Register a <strong>FREE</strong> account with us if you are already a Pointsoft POS System user and start managing your restaurant reservation online</p>
+    <p>Login to manage your account after your account is activated.</p>
+    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Not a Pointsoft Customer Yet</h5>
+                <p class="card-text">If you are a restaurant owner and would like to know more about what Pointsoft has to offer to assist you in your operation click on the link below</p>
+                <a href="#" class="btn btn-primary">More about Pointsoft</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Just looking for a place to Dine</h5>
+                <p class="card-text">We understand how difficult it is sometime to decide where to go. Click on the link below to view and search for places that may interest you.</p>
+                <a href="#" class="btn btn-primary">Find Restaurant</a>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Opps..Not this site</h5>
+                <p class="card-text">Maybe you were looking for our main site or other services and got here instead? Maybe you wanted to know more of what we do and our product offering? if that is the case, click on the link below to go to our main website.</p>
+                <a href="http://www.pointsoft.com" class="btn btn-primary">Pointsoft Main Site</a>
+            </div>
+        </div>
     </div>
 </div>
+

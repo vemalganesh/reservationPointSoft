@@ -20,5 +20,6 @@ namespace PsReservationPortal.Models
 
         public bool Suspended { get; set; }
 
+        public virtual ICollection<CompanyModel> Companies { get; set; }
     }
 }

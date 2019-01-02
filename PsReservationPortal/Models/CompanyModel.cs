@@ -21,5 +21,7 @@ namespace PsReservationPortal.Models
         [Display(Name="Registration Number")]
         public string RegNumber { get; set; }
 
+        public virtual ICollection<UserExtraInfoModel> UserExtraInfos { get; set; }
+
     }
 }

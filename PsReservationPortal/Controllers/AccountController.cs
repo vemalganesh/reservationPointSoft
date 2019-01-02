@@ -17,15 +17,18 @@ namespace PsReservationPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _context = new ApplicationDbContext();
         }
 
         public ApplicationSignInManager SignInManager
@@ -72,6 +75,8 @@ namespace PsReservationPortal.Controllers
             {
                 return View(model);
             }
+
+
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -155,17 +160,24 @@ namespace PsReservationPortal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    if(user.Email.Equals("brian@pointsoft.com.my")||user.Email.Equals("khor@pointsoft.com.my")||user.Email.Equals("peter@pointsoft.com.my"))
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, RoleName.SuperAdmin);
+                    }
+                    else
+                    {
+                        await UserManager.AddToRoleAsync(user.Id, RoleName.Guest);
 
+                        await RecordUserRegistrationInfoAsync(user.Email, model.CompanyName, model.OutletName);
+                    }
 
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user.Id, "Email Confirmation");
 
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.Message = "Check your email and confirm your registration";
+
+                    return View("RegInfo");
+
+                    //return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
             }
@@ -173,6 +185,8 @@ namespace PsReservationPortal.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        
 
         //
         // GET: /Account/ConfirmEmail
@@ -428,6 +442,33 @@ namespace PsReservationPortal.Controllers
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
+
+        private async Task<bool> RecordUserRegistrationInfoAsync(string useremail, string companyname, string outletname)
+        {
+            var userreginfo = new UserRegistrationInfoModel
+            {
+                Email = useremail,
+                CompanyName = companyname,
+                OutletName = outletname
+            };
+
+            _context.UserRegistrationInfo.Add(userreginfo);
+
+            var result = await _context.SaveChangesAsync();
+
+            return result > 0 ? true : false;
+        }
+
+        private async Task<string> SendEmailConfirmationTokenAsync(string userID,string subject)
+        {
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userID);
+
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userID, code = code }, protocol: Request.Url.Scheme);
+
+            await UserManager.SendEmailAsync(userID, subject, "<div><h1>Email Confirmation</h1></div><br/><div><p>Please confirm that you are using this e-mail address to register with us by clicking <a href=\"" + callbackUrl + "\">here</a></p></div>");
+
+            return callbackUrl;
+        }
 
         private IAuthenticationManager AuthenticationManager
         {

@@ -11,6 +11,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using PsReservationPortal.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace PsReservationPortal
 {
@@ -19,6 +21,22 @@ namespace PsReservationPortal
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+            //will need to change the API KEY below to the actual one before deployment
+            var client = new SendGridClient("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");
+
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress("psreservationsupport@pointsoft.com.my", "Reservation Portal Support Team"),
+                Subject = "Pointsoft Reservation Portal User Registration Email Confirmation",
+                PlainTextContent = message.Body,
+                HtmlContent = message.Body
+            };
+
+            msg.AddTo(new EmailAddress(message.Destination));
+
+            client.SendEmailAsync(msg);
+
+
             return Task.FromResult(0);
         }
     }

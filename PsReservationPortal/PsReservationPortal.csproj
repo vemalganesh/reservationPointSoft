@@ -232,6 +232,14 @@
     <Compile Include="Migrations\201901020757012_AddOutletTable.Designer.cs">
       <DependentUpon>201901020757012_AddOutletTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901020804296_RenameExtraUserInfoTableUserIdColumnToExtraInfoIdAndChangeTheKeyFromStringToLong.cs" />
+    <Compile Include="Migrations\201901020804296_RenameExtraUserInfoTableUserIdColumnToExtraInfoIdAndChangeTheKeyFromStringToLong.Designer.cs">
+      <DependentUpon>201901020804296_RenameExtraUserInfoTableUserIdColumnToExtraInfoIdAndChangeTheKeyFromStringToLong.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901020819433_ToremovePriorExtraUserInfoChanges.cs" />
+    <Compile Include="Migrations\201901020819433_ToremovePriorExtraUserInfoChanges.Designer.cs">
+      <DependentUpon>201901020819433_ToremovePriorExtraUserInfoChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
@@ -375,6 +383,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901020757012_AddOutletTable.resx">
       <DependentUpon>201901020757012_AddOutletTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901020804296_RenameExtraUserInfoTableUserIdColumnToExtraInfoIdAndChangeTheKeyFromStringToLong.resx">
+      <DependentUpon>201901020804296_RenameExtraUserInfoTableUserIdColumnToExtraInfoIdAndChangeTheKeyFromStringToLong.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901020819433_ToremovePriorExtraUserInfoChanges.resx">
+      <DependentUpon>201901020819433_ToremovePriorExtraUserInfoChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

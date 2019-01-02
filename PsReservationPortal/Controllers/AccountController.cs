@@ -198,7 +198,20 @@ namespace PsReservationPortal.Controllers
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            if(result.Succeeded)
+            {
+                AddUserExtraInfoIntoTable(userId);
+
+                return View("ConfirmEmail");
+            }
+            else
+            {
+                return View("Error");
+            }
+
+
+            //return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
         //
@@ -457,6 +470,21 @@ namespace PsReservationPortal.Controllers
             var result = await _context.SaveChangesAsync();
 
             return result > 0 ? true : false;
+        }
+
+        private async void AddUserExtraInfoIntoTable(string userid)
+        {
+            var userextarinfo = new UserExtraInfoModel
+            {
+                UserId=userid,
+                Activated=false,
+                Suspended=false
+            };
+
+            _context.UserExtraInfo.Add(userextarinfo);
+
+            await _context.SaveChangesAsync();
+                        
         }
 
         private async Task<string> SendEmailConfirmationTokenAsync(string userID,string subject)

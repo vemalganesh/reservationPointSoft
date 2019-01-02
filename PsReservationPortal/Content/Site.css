@@ -23,3 +23,19 @@ textarea {
     max-width: 280px;
 }
 
+#pscontainer{
+    
+    width : 460px;
+    margin : 100px auto;
+    background-color:#F7F7F7;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+#loginForm{
+    padding:30px 10px 10px 10px;
+}
+
+#loginbtncontainer{
+    margin:3px auto;
+    width:100px;
+}

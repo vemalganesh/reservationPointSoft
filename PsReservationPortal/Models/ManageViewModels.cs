@@ -12,6 +12,8 @@ namespace PsReservationPortal.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public IList<string> AssignRole { get; set; }
+        public string UserName { get; set; }
     }
 
     public class ManageLoginsViewModel

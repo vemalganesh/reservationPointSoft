@@ -201,9 +201,12 @@ namespace PsReservationPortal.Controllers
 
             if(result.Succeeded)
             {
-                AddUserExtraInfoIntoTable(userId);
+                var valreturned = await AddUserExtraInfoIntoTable(userId);
 
-                return View("ConfirmEmail");
+                if (valreturned)
+                    return View("ConfirmEmail");
+                else
+                    return View("Error");
             }
             else
             {
@@ -472,7 +475,7 @@ namespace PsReservationPortal.Controllers
             return result > 0 ? true : false;
         }
 
-        private async void AddUserExtraInfoIntoTable(string userid)
+        private async Task<bool> AddUserExtraInfoIntoTable(string userid)
         {
             var userextarinfo = new UserExtraInfoModel
             {
@@ -483,7 +486,9 @@ namespace PsReservationPortal.Controllers
 
             _context.UserExtraInfo.Add(userextarinfo);
 
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
+
+            return result > 0 ? true : false;
                         
         }
 

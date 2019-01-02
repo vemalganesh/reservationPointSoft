@@ -70,7 +70,9 @@ namespace PsReservationPortal.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                AssignRole = await UserManager.GetRolesAsync(userId),
+                UserName = User.Identity.GetUserName()
             };
             return View(model);
         }

@@ -20,6 +20,8 @@ namespace PsReservationPortal.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<UserRegistrationInfoModel> UserRegistrationInfo { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -79,6 +79,21 @@ namespace PsReservationPortal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [StringLength(15,ErrorMessage ="Phone number has to be at least 7 character long.",MinimumLength =7)]
+        [Display(Name ="Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [Display(Name ="Company Name")]
+        public string CompanyName { get; set; }
+
+        [Required]
+        [Display(Name ="Outlet Name")]
+        public string OutletName { get; set; }
+
     }
 
     public class ResetPasswordViewModel

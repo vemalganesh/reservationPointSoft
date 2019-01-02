@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201901020406509_SeedRole.Designer.cs">
       <DependentUpon>201901020406509_SeedRole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901020514215_AddUserRegistrationInfoTable.cs" />
+    <Compile Include="Migrations\201901020514215_AddUserRegistrationInfoTable.Designer.cs">
+      <DependentUpon>201901020514215_AddUserRegistrationInfoTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -319,6 +323,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901020406509_SeedRole.resx">
       <DependentUpon>201901020406509_SeedRole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901020514215_AddUserRegistrationInfoTable.resx">
+      <DependentUpon>201901020514215_AddUserRegistrationInfoTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

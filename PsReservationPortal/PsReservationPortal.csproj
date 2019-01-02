@@ -228,11 +228,16 @@
     <Compile Include="Migrations\201901020730423_AddManyToManyLinkForCompanyTableAndUserExtraInfoTable.Designer.cs">
       <DependentUpon>201901020730423_AddManyToManyLinkForCompanyTableAndUserExtraInfoTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901020757012_AddOutletTable.cs" />
+    <Compile Include="Migrations\201901020757012_AddOutletTable.Designer.cs">
+      <DependentUpon>201901020757012_AddOutletTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OutletModel.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\UserExtraInfoModel.cs" />
     <Compile Include="Models\UserRegistrationInfoModel.cs" />
@@ -367,6 +372,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901020730423_AddManyToManyLinkForCompanyTableAndUserExtraInfoTable.resx">
       <DependentUpon>201901020730423_AddManyToManyLinkForCompanyTableAndUserExtraInfoTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901020757012_AddOutletTable.resx">
+      <DependentUpon>201901020757012_AddOutletTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

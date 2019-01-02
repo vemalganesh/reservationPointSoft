@@ -23,6 +23,7 @@ namespace PsReservationPortal.Models
         public DbSet<UserRegistrationInfoModel> UserRegistrationInfo { get; set; }
         public DbSet<UserExtraInfoModel> UserExtraInfo { get; set; }
         public DbSet<CompanyModel> Company { get; set; }
+        public DbSet<OutletModel> Outlet { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

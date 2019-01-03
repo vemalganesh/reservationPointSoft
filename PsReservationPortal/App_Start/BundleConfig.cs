@@ -25,6 +25,18 @@ namespace PsReservationPortal
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/Site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/kendo").Include(
+                        "~/Scripts/kendo/kendo.all.min.js",
+                        // uncomment below if using the Scheduler
+                        // "~/Scripts/kendo/kendo.timezones.min.js",
+                        "~/Scripts/kendo/kendo.aspnetmvc.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/kendo/css").Include(
+                    "~/Content/kendo/2018.3.1017/kendo.common-bootstrap.min.css",
+                    "~/Content/kendo/2018.3.1017/kendo.bootstrap.min.css"));
+
+            bundles.IgnoreList.Clear();
         }
     }
 }

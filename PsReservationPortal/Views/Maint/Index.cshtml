@@ -9,34 +9,46 @@
     <div>
         <h4>User Listing</h4>
         @(Html.Kendo().Grid(Model.UserInfoList).Name("usertable").Columns(columns =>
-                    {
-                        columns.Bound(u => u.UserEmail).Title("E-mail").Width(250).HeaderHtmlAttributes(new { style = "font-weight:bold" });
-                        columns.Bound(u => u.UserRoles).Title("Roles").Width(200).HeaderHtmlAttributes(new { style = "font-weight:bold" });
-                        columns.Bound(u => u.EmailConfirmed).Title("Confirmed").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
-                        columns.Bound(u => u.Activated).Title("Activated").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
-                        columns.Bound(u => u.Suspended).Title("Suspended").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
-                        columns.Bound(u => u.Companies).Title("Companies").Width(200).HeaderHtmlAttributes(new { style = "font-weight:bold" });
-                        columns.Template(@<text>
-                            @Html.ActionLink("Suspend", "UserSuspension", "Maint", new { id = item.UserId }, new { @class = "btn btn-warning btn-sm" })
-                            @Html.ActionLink("Edit", "UserEditing", "Maint", new { id = item.UserId }, new { @class = "btn btn-info btn-sm m-2" })
-                            @Html.ActionLink("Delete", "UserDeletion", "Maint", new { id = item.UserId }, new { @class = "btn btn-danger btn-sm" })
-                        </text>).Title("Functions").HeaderHtmlAttributes(new { style = "font-weight:bold" });
+                            {
+                                columns.Bound(u => u.UserEmail).Title("E-mail").Width(250).HeaderHtmlAttributes(new { style = "font-weight:bold" });
+                                columns.Bound(u => u.UserRoles).Title("Roles").Width(200).HeaderHtmlAttributes(new { style = "font-weight:bold" });
+                                columns.Bound(u => u.EmailConfirmed).Title("Confirmed").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
+                                columns.Bound(u => u.Activated).Title("Activated").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
+                                columns.Bound(u => u.Suspended).Title("Suspended").Width(100).HtmlAttributes(new { style = "text-align:center" }).HeaderHtmlAttributes(new { style = "text-align:center;font-weight:bold" });
+                                columns.Bound(u => u.Companies).Title("Companies").Width(200).HeaderHtmlAttributes(new { style = "font-weight:bold" });
+                                columns.Template(@<text>
+                                    @Html.ActionLink("Suspend", "UserSuspension", "Maint", new { id = item.UserId }, new { @class = "btn btn-warning btn-sm" })
+                                    @Html.ActionLink("Edit", "UserEditing", "Maint", new { id = item.UserId }, new { @class = "btn btn-info btn-sm m-2" })
+                                    @Html.ActionLink("Delete", "UserDeletion", "Maint", new { id = item.UserId }, new { @class = "btn btn-danger btn-sm" })
+                                </text>).Title("Functions").HeaderHtmlAttributes(new { style = "font-weight:bold" });
 
-                        }).Pageable())
+                                }).Pageable())
 
     </div>
     <hr />
-    <div>
-        <h4>New Registrations</h4>
-        @(Html.Kendo().Grid(Model.UserRegistrationInfoList).Name("regtable").Columns(columns => {
-        columns.Bound(r => r.Email).Title("E-mail").Width(300);
-        columns.Bound(r => r.CompanyName).Title("Company");
-        columns.Bound(r => r.OutletName).Title("Brand Name");
-        columns.Template(@<text>
-        @Html.ActionLink("Process", "ProcessUser", "Maint", new { email = item.Email},new { @class="btn btn-primary btn-sm"})
-        @Html.ActionLink("Remove", "RemoveRegistration", "Maint", new { email = item.Email }, new { @class="btn btn-danger btn-sm m-2"})
-        </text>).Title("Functions");
-        }))
-    </div>
+    @if (Model.UserRegistrationInfoList != null && Model.UserRegistrationInfoList.Count > 0)
+    {
+        <div>
+            <h4>New Registrations</h4>
+            @(Html.Kendo().Grid(Model.UserRegistrationInfoList).Name("regtable").Columns(columns =>
+                {
+                    columns.Bound(r => r.Email).Title("E-mail").Width(300);
+                    columns.Bound(r => r.CompanyName).Title("Company");
+                    columns.Bound(r => r.OutletName).Title("Brand Name");
+                    columns.Template(@<text>
+                        @Html.ActionLink("Process", "ProcessUser", "Maint", new { email = item.Email }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Remove", "RemoveRegistration", "Maint", new { email = item.Email }, new { @class = "btn btn-danger btn-sm m-2" })
+                    </text>).Title("Functions");
+            }))
+        </div>
+    }
+    else
+    {
+        <div>
+            <h4>No New Registrations</h4>
+        </div>
+    }
+
+
 </div>
 

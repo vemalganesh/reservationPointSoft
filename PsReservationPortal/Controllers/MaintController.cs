@@ -77,10 +77,72 @@ namespace PsReservationPortal.Controllers
         }
 
         public ActionResult AddCompany(string useremail,string companyname)
+        {            
+            AddCompany(companyname);
+
+            return RedirectToAction("ProcessUser", new { email = useremail });
+        }
+
+        public ActionResult ActivateUser(string useremail, string companyname)
         {
+            //add the company into company table if it does not exists and both cases return the company id
+            //if there is an error it will return -1;
+            var companyid = AddCompany(companyname);
+
+            if(companyid>0)
+            {
+                //get the use data by the user e-mail address
+                var user = _context.Users.FirstOrDefault(u => u.Email == useremail);
+
+                //if don't have the user then return to the process user page
+                if (user == null)
+                    return RedirectToAction("ProcessUser", new { email = useremail });
+
+                //get the user extra info from the UserExtraInfo Table
+                var userextrainfo = _context.UserExtraInfo.FirstOrDefault(u => u.UserId == user.Id);
+
+                //if user extra info does not exists then return to the process user page
+                if (userextrainfo == null)
+                    return RedirectToAction("ProcessUser", new { email = useremail });
+
+                //get the user registration data from the UserRegistration table
+                var userregistrationinfo = _context.UserRegistrationInfo.FirstOrDefault(ur => ur.Email == useremail);
+                if (userregistrationinfo != null)
+                {
+                    //remove the entry from the table before we start populating other tables
+                    _context.UserRegistrationInfo.Remove(userregistrationinfo);
+                }
+
+                //get the user company from the company id we got with relation to the company name
+                var usercompany = _context.Company.FirstOrDefault(c => c.Id == companyid);
+                if (usercompany != null)
+                {
+                    //now we update the Company table with the information of the user and let entity be aware of the link
+                    usercompany.UserExtraInfos.Add(userextrainfo);
+
+                    //now we update the user extra info table and also let entity framework be aware of the link to company table
+                    userextrainfo.Activated = true;
+                    userextrainfo.Companies.Add(usercompany);
+                }
+                //now we save all the changes
+                _context.SaveChanges();
+            }
+            
+            //finally return to the dashboard
+            return View("Index");
+
+        }
+
+
+        #region Helpers
+
+        private long AddCompany(string companyname)
+        {
+            long retid = -1;
+
             var companystatus = _context.Company.FirstOrDefault(c => c.Name == companyname);
 
-            if(companystatus==null)
+            if (companystatus == null)
             {
                 CompanyModel company = new CompanyModel
                 {
@@ -89,22 +151,17 @@ namespace PsReservationPortal.Controllers
 
                 _context.Company.Add(company);
                 _context.SaveChanges();
-            }                 
 
+                retid = company.Id;
+            }
+            else
+            {
+                retid = companystatus.Id;
+            }
 
-            return RedirectToAction("ProcessUser", new { email = useremail });
+            return retid;
         }
 
-        public ActionResult ActivateUser(string useremail, string companyname)
-        {
-            var sometrest = companyname;
-
-
-            return RedirectToAction("ProcessUser", new { email = useremail });
-        }
-
-
-        #region Helpers
         private MaintDashboardViewModel PrepareDashboardModel()
         {
             MaintDashboardViewModel model = new MaintDashboardViewModel

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Kendo.Mvc.UI;
 using Microsoft.AspNet.Identity.Owin;
 using PsReservationPortal.Models;
 using PsReservationPortal.ViewModels;
+using Kendo.Mvc.Extensions;
 
 namespace PsReservationPortal.Controllers
 {
@@ -64,9 +66,41 @@ namespace PsReservationPortal.Controllers
 
         public ActionResult ProcessUser(string email)
         {
+            ProcessUserViewModel modeldata = new ProcessUserViewModel
+            {
+                UserRegistrationInfo = GetUserRegistrationInfoByEmail(email),
+                Companies = GetAllCompanies()
+            };
+                       
 
-            ViewBag.Message = email;
-            return View();
+            return View(modeldata);
+        }
+
+        public ActionResult AddCompany(string useremail,string companyname)
+        {
+            var companystatus = _context.Company.FirstOrDefault(c => c.Name == companyname);
+
+            if(companystatus==null)
+            {
+                CompanyModel company = new CompanyModel
+                {
+                    Name = companyname
+                };
+
+                _context.Company.Add(company);
+                _context.SaveChanges();
+            }                 
+
+
+            return RedirectToAction("ProcessUser", new { email = useremail });
+        }
+
+        public ActionResult ActivateUser(string useremail, string companyname)
+        {
+            var sometrest = companyname;
+
+
+            return RedirectToAction("ProcessUser", new { email = useremail });
         }
 
 
@@ -149,6 +183,20 @@ namespace PsReservationPortal.Controllers
                 }
             }
             return companynamelist;
+        }
+
+        private List<CompanyModel> GetAllCompanies()
+        {
+            var companies = _context.Company.ToList();
+
+            return companies;
+        }
+
+        private UserRegistrationInfoModel GetUserRegistrationInfoByEmail(string email)
+        {
+            var reginfo = _context.UserRegistrationInfo.FirstOrDefault(r => r.Email == email);
+
+            return reginfo;
         }
 
         #endregion

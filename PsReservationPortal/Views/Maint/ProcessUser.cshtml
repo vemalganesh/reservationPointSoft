@@ -1,11 +1,101 @@
-﻿
+﻿@model PsReservationPortal.ViewModels.ProcessUserViewModel
 @{
     ViewBag.Title = "ProcessUser";
 }
 
-<h4>Process new Registration for user <span style="color:darkseagreen;">[ @ViewBag.Message ]</span></h4>
-<hr />
-<div>
+<style type="text/css">
+    .infotitle{
+        background-color:rgb(48, 98, 177);
+        color:rgb(247, 244, 244);
+        padding:13px 13px 13px 13px;
+        margin:0;
+        font-size:16px;
+        font-weight:400;
+    }
+    #comptitle{
+        margin:5px 0 0 13px;
+    }
+    #compnametext{
+        font-weight:500;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    #companytable{
+        width:100%;
+    }
+    .form-inline{
+        display:inline;
+    }
+    .input-sm{
+        margin:0 5px;
+    }
+    #companytable_paginate{
+        margin-right:10px;
+    }
+    .paginate_button{
+        margin:0 2px;
+    }
+</style>
 
+<h4>Process new Registration for user <span style="color:darkseagreen;">[ @Model.UserRegistrationInfo.Email ]</span></h4>
+<hr />
+<div class="row container-fluid">
+    <div class="col-sm-auto col-md-3 border rounded" style="padding:0;">
+        <h4 class="infotitle">Info from Registrations</h4>
+        <p id="comptitle">Company : <span id="compnametext">@Model.UserRegistrationInfo.CompanyName</span></p>
+    </div>
+    <div class="col-sm-auto col-md-3 m-2">
+        @Html.ActionLink("Add to Company", "AddCompany", "Maint",new {useremail = Model.UserRegistrationInfo.Email, companyname = Model.UserRegistrationInfo.CompanyName }, new { @class="btn btn-primary btn-block", id="btnaddcompany"})
+        <button class="btn btn-primary btn-block disabled" id="btnassigncompany">Assign</button>
+        @Html.ActionLink("Activate User","ActivateUser","Maint",new { useremail = Model.UserRegistrationInfo.Email, companyname = Model.UserRegistrationInfo.CompanyName }, new { @class="btn btn-warning btn-block",id="btnassignuser"})
+
+    </div>
+    <div class="col-sm-auto col-md-5">
+        <table class="table table-bordered table-hover" id="companytable">
+            <thead>
+                <tr>
+                    <th class="tableheader">Company Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var company in Model.Companies)
+                {
+                    <tr>                        
+                        <td>@company.Name</td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>        
+    </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#companytable').DataTable();
+
+        var jqcompname;
+
+        $('#companytable').on("click", "tbody tr", function (e) {
+            jqcompname = e.target.innerHTML;
+            $('#btnassigncompany').text("Assign " + e.target.innerHTML + " to user");
+            $('#btnassigncompany').removeClass("disabled");
+        });
+
+        $('#btnassigncompany').on("click", function () {
+            if (!$('#btnassigncompany').hasClass("disabled")) {
+                $('#compnametext').text(jqcompname);
+                $('#btnaddcompany').addClass("disabled");
+                var indexoflastequal = $('#btnassignuser').prop("href").lastIndexOf("=");
+                var basehref = $('#btnassignuser').prop("href").substr(0, indexoflastequal + 1);
+
+                $('#btnassignuser').prop("href", basehref + jqcompname);
+            }
+        });
+
+    });
+</script>
+
+
 

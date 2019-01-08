@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.Owin;
 using PsReservationPortal.Models;
 using PsReservationPortal.ViewModels;
 using Kendo.Mvc.Extensions;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
@@ -118,7 +119,18 @@ namespace PsReservationPortal.Controllers
                 if (usercompany != null)
                 {
                     //now we update the Company table with the information of the user and let entity be aware of the link
-                    usercompany.UserExtraInfos.Add(userextrainfo);
+                    if(usercompany.UserExtraInfos!=null)
+                    {
+                        usercompany.UserExtraInfos.Add(userextrainfo);
+                    }
+                    else
+                    {
+                        usercompany.UserExtraInfos = new List<UserExtraInfoModel>
+                        {
+                            userextrainfo
+                        };
+                    }
+                                                         
 
                     //now we update the user extra info table and also let entity framework be aware of the link to company table
                     userextrainfo.Activated = true;
@@ -129,10 +141,104 @@ namespace PsReservationPortal.Controllers
             }
             
             //finally return to the dashboard
-            return View("Index");
+            return RedirectToAction("Index");
 
         }
 
+        public ActionResult RemoveRegistration(string email)
+        {
+            var reginfo = _context.UserRegistrationInfo.FirstOrDefault(rg => rg.Email == email);
+
+            if(reginfo!=null)
+            {
+                _context.UserRegistrationInfo.Remove(reginfo);
+
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult ToggleSelectedUserSuspendStatus(string email)
+        {
+            string suspendstatus = "";
+            var seluser = _context.Users.FirstOrDefault(u => u.Email == email);
+
+            if(seluser!=null)
+            {
+                var seluserxtra = _context.UserExtraInfo.FirstOrDefault(x => x.UserId == seluser.Id);
+                if(seluserxtra!=null)
+                {
+                    seluserxtra.Suspended = !seluserxtra.Suspended;
+
+                    _context.SaveChanges();
+
+                    suspendstatus = seluserxtra.Suspended.ToString().ToLower();
+                }
+            }
+
+            return Json(new { success = true, message = suspendstatus }, JsonRequestBehavior.AllowGet);
+            //return RedirectToAction("Index");
+        }
+        
+        public ActionResult EditUser(string userid)
+        {           
+            var user = _context.Users.FirstOrDefault(u => u.Id == userid);
+
+            if(user==null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var userextrainfo = _context.UserExtraInfo.FirstOrDefault(x => x.UserId == userid);
+
+            if (userextrainfo == null)
+                return RedirectToAction("Index");
+
+            var userinfo = new EditUserViewModel
+            {
+                Activated = userextrainfo.Activated,
+                //Companies = GetAllCompanies(),
+                EmailConfirmed = user.EmailConfirmed,
+                Suspended = userextrainfo.Suspended,
+                UserEmail = user.Email,
+                UserId = user.Id,
+                UserRoles = GetUserRolewithMultiSelect(user.Id),
+                Companies = GetUserCompanywithMultiSelect(user.Id)
+            };
+
+
+
+
+            return View(userinfo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveUserChanges(EditUserViewModel model,long[] companiesId,string[] rolesid)
+        {
+            var userInDb = _context.Users.SingleOrDefault(u => u.Id == model.UserId);
+
+            if (userInDb == null)
+                return RedirectToAction("EditUser", model.UserId);
+
+            userInDb.EmailConfirmed = model.EmailConfirmed;
+
+            var userroles = _context.Roles.Where(r => rolesid.Contains(r.Id)).ToList();
+
+            //remove all user current roles
+
+            //add new selected roles to user
+
+            //remove all companies associated with user via userextrainfo table
+
+            //add all new selected companies to users
+
+            //presist all changes to database
+
+
+            return RedirectToAction("Index");
+        }
 
         #region Helpers
 
@@ -242,11 +348,56 @@ namespace PsReservationPortal.Controllers
             return companynamelist;
         }
 
+        private MultiSelectList GetUserCompanywithMultiSelect(string userid)
+        {
+            string associatedcompanyid="";
+            var companies = _context.Company.Where(c => c.UserExtraInfos.Any(u => u.UserId == userid)).ToList();
+            foreach(var comp in companies)
+            {
+                associatedcompanyid = associatedcompanyid + comp.Id.ToString() + ",";
+            }
+            if (associatedcompanyid.EndsWith(","))
+                associatedcompanyid = associatedcompanyid.Remove(associatedcompanyid.Length - 1);
+
+            var allcompany = _context.Company.ToList();
+
+            MultiSelectList retmlist = new MultiSelectList(allcompany, "Id", "Name", new[] { associatedcompanyid });
+
+            return retmlist;
+
+        }
+
+        private MultiSelectList GetUserRolewithMultiSelect(string userid)
+        {
+            string associatedroleid = "";
+            var roles = _context.Roles.Where(r => r.Users.Any(u => u.UserId == userid)).ToList();
+            foreach(var role in roles)
+            {
+                associatedroleid = associatedroleid + role.Id + ",";
+            }
+            if (associatedroleid.EndsWith(","))
+                associatedroleid = associatedroleid.Remove(associatedroleid.Length - 1);
+
+            var allroles = _context.Roles.ToList();
+
+            MultiSelectList retmlist = new MultiSelectList(allroles, "Id", "Name", new[] { associatedroleid });
+
+            return retmlist;
+
+        }
+
         private List<CompanyModel> GetAllCompanies()
         {
             var companies = _context.Company.ToList();
 
             return companies;
+        }
+
+        private IEnumerable<IdentityRole> GetAllRoles()
+        {
+            var roles = _context.Roles.ToList();
+
+            return roles;
         }
 
         private UserRegistrationInfoModel GetUserRegistrationInfoByEmail(string email)

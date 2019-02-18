@@ -215,7 +215,7 @@ namespace PsReservationPortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SaveUserChanges(EditUserViewModel model,long[] companiesId,string[] rolesid)
+        public async Task<ActionResult> SaveUserChanges(EditUserViewModel model,long[] companiesId,string[] rolesid)
         {
             var userInDb = _context.Users.SingleOrDefault(u => u.Id == model.UserId);
 
@@ -227,10 +227,17 @@ namespace PsReservationPortal.Controllers
             var userroles = _context.Roles.Where(r => rolesid.Contains(r.Id)).ToList();
 
             //remove all user current roles
+            var currentroles = await UserManager.GetRolesAsync(model.UserId);
+            await UserManager.RemoveFromRolesAsync(model.UserId, currentroles.ToArray());
 
             //add new selected roles to user
-
+            foreach(var selecteduserole in userroles)
+            {
+                await UserManager.AddToRoleAsync(model.UserId, selecteduserole.Name);
+            }
+            
             //remove all companies associated with user via userextrainfo table
+            
 
             //add all new selected companies to users
 

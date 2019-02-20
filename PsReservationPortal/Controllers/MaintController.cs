@@ -235,14 +235,24 @@ namespace PsReservationPortal.Controllers
             {
                 await UserManager.AddToRoleAsync(model.UserId, selecteduserole.Name);
             }
-            
-            //remove all companies associated with user via userextrainfo table
-            
 
+            //remove all companies associated with user via userextrainfo table
+            var currentuser = _context.UserExtraInfo.FirstOrDefault(r => r.UserId == model.UserId);
+            List<CompanyModel> list = currentuser.Companies.ToList();
+            foreach(CompanyModel c in list)
+            {
+                currentuser.Companies.Remove(c);
+            }
+            
             //add all new selected companies to users
+            foreach(var id in companiesId)
+            {
+                var company = _context.Company.FirstOrDefault(r => r.Id == id);
+                currentuser.Companies.Add(company);
+            }
 
             //presist all changes to database
-
+            await _context.SaveChangesAsync();
 
             return RedirectToAction("Index");
         }

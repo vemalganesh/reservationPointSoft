@@ -248,11 +248,35 @@
     <Compile Include="Migrations\201901020819433_ToremovePriorExtraUserInfoChanges.Designer.cs">
       <DependentUpon>201901020819433_ToremovePriorExtraUserInfoChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902210835164_ReservationSetting_added.cs" />
+    <Compile Include="Migrations\201902210835164_ReservationSetting_added.Designer.cs">
+      <DependentUpon>201902210835164_ReservationSetting_added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902210845575_OperationSetting_added.cs" />
+    <Compile Include="Migrations\201902210845575_OperationSetting_added.Designer.cs">
+      <DependentUpon>201902210845575_OperationSetting_added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902210856117_OutletModel_update.cs" />
+    <Compile Include="Migrations\201902210856117_OutletModel_update.Designer.cs">
+      <DependentUpon>201902210856117_OutletModel_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902210858257_TableModel_added.cs" />
+    <Compile Include="Migrations\201902210858257_TableModel_added.Designer.cs">
+      <DependentUpon>201902210858257_TableModel_added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902210905346_DinerModel_added.cs" />
+    <Compile Include="Migrations\201902210905346_DinerModel_added.Designer.cs">
+      <DependentUpon>201902210905346_DinerModel_added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OperationSettingModel.cs" />
+    <Compile Include="Models\DinerModel.cs" />
+    <Compile Include="Models\TableModel.cs" />
+    <Compile Include="Models\ReservationSettingModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
     <Compile Include="Models\OutletOffDayModel.cs" />
     <Compile Include="Models\OutletWorkingDateModel.cs" />
@@ -5450,6 +5474,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901020819433_ToremovePriorExtraUserInfoChanges.resx">
       <DependentUpon>201901020819433_ToremovePriorExtraUserInfoChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902210835164_ReservationSetting_added.resx">
+      <DependentUpon>201902210835164_ReservationSetting_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902210845575_OperationSetting_added.resx">
+      <DependentUpon>201902210845575_OperationSetting_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902210856117_OutletModel_update.resx">
+      <DependentUpon>201902210856117_OutletModel_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902210858257_TableModel_added.resx">
+      <DependentUpon>201902210858257_TableModel_added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902210905346_DinerModel_added.resx">
+      <DependentUpon>201902210905346_DinerModel_added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

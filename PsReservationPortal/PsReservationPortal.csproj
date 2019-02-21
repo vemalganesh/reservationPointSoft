@@ -254,6 +254,8 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OutletModel.cs" />
+    <Compile Include="Models\OutletOffDayModel.cs" />
+    <Compile Include="Models\OutletWorkingDateModel.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\UserExtraInfoModel.cs" />
     <Compile Include="Models\UserRegistrationInfoModel.cs" />

@@ -7,14 +7,12 @@ using System.Web;
 
 namespace PsReservationPortal.Models
 {
-    [Table("OutletOffDay")]
-    public class OutletOffDayModel
+    [Table("ReservationDaySetting")]
+    public class ReservationDaySettingModel
     { 
         [Key]
         public int Id { get; set; }
-
-        public int OutletId { get; set; }
-
+        
         [Display(Name = "Monday")]
         public bool MonOff { get; set; }
 
@@ -35,13 +33,12 @@ namespace PsReservationPortal.Models
 
         [Display(Name = "Sunday")]
         public bool SunOff { get; set; }
+        
+        public DateTime DateTimeUpdated { get; set; }
 
-        public bool Active { get; set; }
+        public DateTime DateTimeCreated { get; set; }
 
-        public CompanyModel Company { get; set; }
-
-        public DateTime ModifiedDateTime { get; set; }
-
-        public int ModifiedUserId { get; set; }
+        [Required]
+        public OutletModel OutletId { get; set; }
     }
 }

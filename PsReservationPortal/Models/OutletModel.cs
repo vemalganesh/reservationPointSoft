@@ -11,21 +11,26 @@ namespace PsReservationPortal.Models
     public class OutletModel
     {
         [Key]
-        public long OutletId { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [Display(Name ="Outlet Name")]
-        public string OutletName { get; set; }
+        public string Name { get; set; }
 
-        [Display(Name ="Location Description")]
-        public string OutletLocation { get; set; }
+        [Display(Name ="Location")]
+        public string Location { get; set; }
 
         [Display(Name ="Address")]
-        public string OutletAddress { get; set; }
+        public string Address { get; set; }
+
+        [Display(Name = "Description")]
+        public string Description { get; set; }
 
         public bool isActive { get; set; }
-
-        public CompanyModel Company { get; set; }
+        
+        public double ReservationDuration { get; set; }
+        
+        public double ReservationAllowBefore { get; set; }
         
         [DataType(DataType.PhoneNumber)]
         [StringLength(15, ErrorMessage = "Phone number has to be at least 7 character long.", MinimumLength = 7)]
@@ -39,12 +44,14 @@ namespace PsReservationPortal.Models
 
         public DateTime DateTimeUpdated { get; set; }
 
+        public CompanyModel Company { get; set; }
+
+        public ReservationHourSettingModel ReservationHourSettingId { get; set; }
+
+        public ReservationDaySettingModel ReservationDaySettingId { get; set; }
+
         public ICollection<UserExtraInfoModel> Managers { get; set; }
-
-        public ReservationSettingModel ReservationSettingId { get; set; }
-
-        public OperationSettingModel OperationSettingId { get; set; }
-
+        
         public ICollection<TableModel> Tables { get; set; }
     }
 }

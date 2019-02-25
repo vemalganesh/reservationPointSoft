@@ -273,18 +273,21 @@
     <Compile Include="Migrations\201902210919397_OutletOffDay.Designer.cs">
       <DependentUpon>201902210919397_OutletOffDay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902250724195_Database_Changes.cs" />
+    <Compile Include="Migrations\201902250724195_Database_Changes.Designer.cs">
+      <DependentUpon>201902250724195_Database_Changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\OperationSettingModel.cs" />
+    <Compile Include="Models\ReservationHourSettingModel.cs" />
     <Compile Include="Models\DinerModel.cs" />
     <Compile Include="Models\TableModel.cs" />
-    <Compile Include="Models\ReservationSettingModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
-    <Compile Include="Models\OutletOffDayModel.cs" />
-    <Compile Include="Models\OutletWorkingDateModel.cs" />
+    <Compile Include="Models\ReservationDaySettingModel.cs" />
+    <Compile Include="Models\CloseDateSettingModel.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\UserExtraInfoModel.cs" />
     <Compile Include="Models\UserRegistrationInfoModel.cs" />
@@ -5500,6 +5503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902210919397_OutletOffDay.resx">
       <DependentUpon>201902210919397_OutletOffDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902250724195_Database_Changes.resx">
+      <DependentUpon>201902250724195_Database_Changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

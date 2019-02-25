@@ -30,13 +30,13 @@ namespace PsReservationPortal.Controllers
 
         public ActionResult Edit(int id)
         {
-            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.OutletId == id);
+            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.Id == id);
             return View(outlet);
         }
 
         public ActionResult Details(int id)
         {
-            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.OutletId == id);
+            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.Id == id);
             return View(outlet);
         }
     }

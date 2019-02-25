@@ -20,8 +20,10 @@ namespace PsReservationPortal.Models
 
         [Display(Name="Registration Number")]
         public string RegNumber { get; set; }
+        
+        public bool isActive { get; set; }
 
         public virtual ICollection<UserExtraInfoModel> UserExtraInfos { get; set; }
-
+        public virtual ICollection<OutletModel> Outlets { get; set; }
     }
 }

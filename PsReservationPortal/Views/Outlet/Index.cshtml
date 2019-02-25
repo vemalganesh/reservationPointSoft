@@ -1,0 +1,205 @@
+﻿@model PsReservationPortal.ViewModels.MaintDashboardViewModel
+@{
+    ViewBag.Title = "Maintenance";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<style>
+    .form-inline {
+        display: inline;
+    }
+    #usertable_length label{
+        float :left;
+    }
+    #usertable_filter label{
+        float:right;
+    }
+    .input-sm {
+        margin: 0 5px;
+    }
+    .paginate_button {
+        margin: 0 2px;
+    }
+    .cellaligncenter{
+        text-align:center;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    .btn{
+        min-width:80px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>System Maintenance Dashboard</h2>
+    <hr />
+    <div>
+        <h4>User Listing</h4>
+        @if (Model.UserInfoList.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="usertable">
+                <thead class="tableheader">
+                    <tr>
+                        <th style="width:250px;">E-mail</th>
+                        <th style="width:100px;">Roles</th>
+                        <th style="width:100px;">Confirmed</th>
+                        <th style="width:100px;">Activated</th>
+                        <th style="width:100px;">Suspended</th>
+                        <th style="width:250px;">Companies</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.UserInfoList)
+                    {
+                        var btnsuspendtext = user.Suspended ? "Unsuspend" : "Suspend";
+
+                        string userroles = "";
+
+                        foreach (var roles in user.UserRoles)
+                        {
+                            userroles = userroles + roles + ",";
+                        }
+
+                        if (userroles.EndsWith(","))
+                        {
+                            userroles = userroles.Remove(userroles.Length - 1);
+                        }
+
+                        string companies = "";
+                        foreach (var company in user.Companies)
+                        {
+                            companies = companies + company + ",";
+                        }
+
+                        if (companies.EndsWith(","))
+                        {
+                            companies = companies.Remove(companies.Length - 1);
+                        }
+
+                        <tr>
+                            <td class="useremail">@user.UserEmail</td>
+                            <td>@userroles</td>
+                            <td class="cellaligncenter">
+                                @if (user.EmailConfirmed)
+                                {
+                                    <i class="far fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-circle"></i>
+                                }
+
+                            </td>
+                            <td class="cellaligncenter">
+                                @if (user.Activated)
+                                {
+                                    <i class="far fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-circle"></i>
+                                }
+                            </td>
+                            <td class="cellaligncenter cellsuspend">
+                                @if (user.Suspended)
+                                {
+                                    <i class="far fa-check-circle"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-circle"></i>
+                                }
+                            </td>
+                            <td>@companies</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm btnsuspend">@btnsuspendtext</button>
+                                @Html.ActionLink("Edit", "EditUser", "Maint", new { userid = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
+                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
+
+                                @*@Html.ActionLink("Suspend", "UserSuspension", "Maint", new { id = item.UserId }, new { @class = "btn btn-warning btn-sm" })
+        @Html.ActionLink("Edit", "UserEditing", "Maint", new { id = item.UserId }, new { @class = "btn btn-info btn-sm m-2" })
+        @Html.ActionLink("Delete", "UserDeletion", "Maint", new { id = item.UserId }, new { @class = "btn btn-danger btn-sm" })*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>No Registered User Yet!</h4>
+        }
+
+
+    </div>
+    <hr />
+    @if (Model.UserRegistrationInfoList != null && Model.UserRegistrationInfoList.Count > 0)
+    {
+        <div>
+            <h4>New Registrations</h4>
+            @(Html.Kendo().Grid(Model.UserRegistrationInfoList).Name("regtable").Columns(columns =>
+                        {
+                            columns.Bound(r => r.Email).Title("E-mail").Width(300);
+                            columns.Bound(r => r.CompanyName).Title("Company");
+                            columns.Bound(r => r.OutletName).Title("Brand Name");
+                            columns.Template(@<text>
+                                @Html.ActionLink("Process", "ProcessUser", "Maint", new { email = item.Email }, new { @class = "btn btn-primary btn-sm" })
+                                @Html.ActionLink("Remove", "RemoveRegistration", "Maint", new { email = item.Email }, new { @class = "btn btn-danger btn-sm m-2" })
+                            </text>).Title("Functions");
+                            }))
+        </div>
+    }
+    else
+    {
+        <div>
+            <h4>No New Registrations</h4>
+        </div>
+    }
+    
+    
+
+</div>
+<script>
+    $(document).ready(function () {
+        $('#usertable').DataTable();        
+
+    });
+
+    $('.btnsuspend').on("click", function () {
+        var $row = $(this).closest("tr");
+        var $column = $row.find(".useremail");
+
+        //console.log($column.text());
+
+        $.ajax({
+            type: "POST",
+            url: "/Maint/ToggleSelectedUserSuspendStatus",
+            data: '{email: "' + $column.text() + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.success) {
+                    //console.log("updated");
+                    //location.reload(true);
+                    if (data.message === "true") {
+                        $row.find(".cellsuspend i").removeClass("far fa-circle");
+                        $row.find(".cellsuspend i").addClass("far fa-check-circle");
+                        console.log($row.find(".btnsuspend").text("Unsuspend"));
+                    }
+                    else {
+                        $row.find(".cellsuspend i").removeClass("far fa-check-circle");
+                        $row.find(".cellsuspend i").addClass("far fa-circle");
+                        console.log($row.find(".btnsuspend").text("Suspend"));
+                    }
+                }                
+            }
+        });
+
+    });
+
+    
+</script>

@@ -28,5 +28,7 @@ namespace PsReservationPortal.Models
         public DateTime ModifiedDateTime { get; set; }
 
         public int ModifiedUserId { get; set; }
+
+        public DateTime CreateddDateTime { get; set; }
     }
 }

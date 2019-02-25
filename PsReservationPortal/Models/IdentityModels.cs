@@ -28,7 +28,8 @@ namespace PsReservationPortal.Models
         public DbSet<OperationSettingModel> OperationSetting { get; set; }
         public DbSet<TableModel> Table { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
-
+        public DbSet<OutletOffDayModel> OutletOffDay { get; set; }
+        public DbSet<OutletWorkingDateModel> OutletWorkingDate { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

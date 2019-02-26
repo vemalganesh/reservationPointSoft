@@ -29,6 +29,7 @@ namespace PsReservationPortal.Models
         public DbSet<CloseDateSettingModel> CloseDateSetting { get; set; }
         public DbSet<TableModel> Table { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
+        public DbSet<OperationTypeModel> OperationType { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

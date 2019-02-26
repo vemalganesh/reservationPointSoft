@@ -28,6 +28,9 @@ namespace PsReservationPortal.Models
         [Required]
         public OutletModel OutletId { get; set; }
 
+        [Required]
+        public OperationTypeModel OperationTypeId { get; set; }
+
         public DateTime DateTimeCreated { get; set; }
 
         public DateTime DateTimeUpdated { get; set; }

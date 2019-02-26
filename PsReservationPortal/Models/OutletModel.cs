@@ -46,7 +46,7 @@ namespace PsReservationPortal.Models
 
         public CompanyModel Company { get; set; }
 
-        public ReservationHourSettingModel ReservationHourSettingId { get; set; }
+        public OperationHourSettingModel OperationHourSettingId { get; set; }
 
         public ReservationDaySettingModel ReservationDaySettingId { get; set; }
 

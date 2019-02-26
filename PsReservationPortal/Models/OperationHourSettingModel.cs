@@ -13,19 +13,17 @@ namespace PsReservationPortal.Models
         [Key]
         public int Id { get; set; }
 
-        public Days day { get; set; }
+        public Days Day { get; set; }
 
-        public double OpenHour { get; set; }
+        public int OperationType { get; set; }
+        
+        public int StartHour { get; set; }
 
-        public double CloseHour { get; set; }
+        public int EndHour { get; set; }
 
-        public double StartBreak { get; set; }
+        public int StartMinute { get; set; }
 
-        public double EndBreak { get; set; }
-
-        public double StartResvPeriod { get; set; }
-
-        public double EndResvPeriod { get; set; }
+        public int EndMinute { get; set; }
 
         [Required]
         public OutletModel OutletId { get; set; }
@@ -33,16 +31,5 @@ namespace PsReservationPortal.Models
         public DateTime DateTimeCreated { get; set; }
 
         public DateTime DateTimeUpdated { get; set; }
-    }
-
-    public enum Days
-    {
-        Monday = 1,
-        Tuesday = 2,
-        Wednesday = 3,
-        Thursday = 4,
-        Friday = 5,
-        Saturday = 6,
-        Sunday = 7
     }
 }

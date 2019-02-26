@@ -281,13 +281,19 @@
     <Compile Include="Migrations\201902260313237_ChangeResvHrSetToOperationHourSetting.Designer.cs">
       <DependentUpon>201902260313237_ChangeResvHrSetToOperationHourSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902260656379_ChangesToOperationHourSettingModel.cs" />
+    <Compile Include="Migrations\201902260656379_ChangesToOperationHourSettingModel.Designer.cs">
+      <DependentUpon>201902260656379_ChangesToOperationHourSettingModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\OperationHourSettingModel.cs" />
     <Compile Include="Models\DinerModel.cs" />
+    <Compile Include="Models\OperationType.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
     <Compile Include="Models\ReservationDaySettingModel.cs" />
@@ -5428,6 +5434,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902260313237_ChangeResvHrSetToOperationHourSetting.resx">
       <DependentUpon>201902260313237_ChangeResvHrSetToOperationHourSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902260656379_ChangesToOperationHourSettingModel.resx">
+      <DependentUpon>201902260656379_ChangesToOperationHourSettingModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

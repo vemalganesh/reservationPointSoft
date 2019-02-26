@@ -287,7 +287,7 @@
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
     <Compile Include="Models\ReservationExclusionDayModel.cs" />
-    <Compile Include="Models\CloseDateSettingModel.cs" />
+    <Compile Include="Models\ReservationExclusionDateModel.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\UserExtraInfoModel.cs" />
     <Compile Include="Models\UserRegistrationInfoModel.cs" />

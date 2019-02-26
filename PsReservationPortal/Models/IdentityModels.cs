@@ -24,9 +24,9 @@ namespace PsReservationPortal.Models
         public DbSet<UserExtraInfoModel> UserExtraInfo { get; set; }
         public DbSet<CompanyModel> Company { get; set; }
         public DbSet<OutletModel> Outlet { get; set; }
-        public DbSet<ReservationExclusionDayModel> ReservationDaySetting { get; set; }
+        public DbSet<ReservationExclusionDayModel> ReservationExclusionDay { get; set; }
         public DbSet<ReservationHourSettingModel> ReservationHourSetting { get; set; }
-        public DbSet<CloseDateSettingModel> CloseDateSetting { get; set; }
+        public DbSet<ReservationExclusionDateModel> ReservationExclusionDate { get; set; }
         public DbSet<TableModel> Table { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
 

@@ -279,15 +279,17 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CustTableModel.cs" />
     <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\ReservationOrderModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ReservationHourSettingModel.cs" />
     <Compile Include="Models\DinerModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
-    <Compile Include="Models\ReservationDaySettingModel.cs" />
-    <Compile Include="Models\CloseDateSettingModel.cs" />
+    <Compile Include="Models\ReservationExclusionDayModel.cs" />
+    <Compile Include="Models\ReservationExclusionDateModel.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="Models\UserExtraInfoModel.cs" />
     <Compile Include="Models\UserRegistrationInfoModel.cs" />

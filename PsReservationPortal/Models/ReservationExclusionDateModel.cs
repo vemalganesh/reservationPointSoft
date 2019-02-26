@@ -7,20 +7,20 @@ using System.Web;
 
 namespace PsReservationPortal.Models
 {
-    [Table("CloseDateSetting")]
-    public class CloseDateSettingModel
-    { 
+    [Table("ReservationExclusionDate")]
+    public class ReservationExclusionDateModel
+    {
         [Key]
         public int Id { get; set; }
 
-        public string Remark { get; set; }
-        
+        public string ExlusionDateName { get; set; }
+
         [Display(Name = "Date From")]
         public DateTime DateFrom { get; set; }
 
         [Display(Name = "Date To")]
         public DateTime DateTo { get; set; }
-        
+
         public DateTime DateTimeUpdated { get; set; }
 
         public DateTime DateTimeCreated { get; set; }

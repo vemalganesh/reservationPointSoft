@@ -48,7 +48,7 @@ namespace PsReservationPortal.Models
 
         public ReservationHourSettingModel ReservationHourSettingId { get; set; }
 
-        public ReservationDaySettingModel ReservationDaySettingId { get; set; }
+        public ReservationExclusionDayModel ReservationDaySettingId { get; set; }
 
         public ICollection<UserExtraInfoModel> Managers { get; set; }
         

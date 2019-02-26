@@ -7,38 +7,41 @@ using System.Web;
 
 namespace PsReservationPortal.Models
 {
-    [Table("ReservationDaySetting")]
-    public class ReservationDaySettingModel
-    { 
+    [Table("ReservationExclusionDay")]
+    public class ReservationExclusionDayModel
+    {
+        public enum OpenClose { Open, Close }
+
         [Key]
         public int Id { get; set; }
-        
+
         [Display(Name = "Monday")]
-        public bool MonOff { get; set; }
+        public OpenClose Monday { get; set; }
 
         [Display(Name = "Tuesday")]
-        public bool TueOff { get; set; }
+        public OpenClose Tuesday { get; set; }
 
         [Display(Name = "Wednesday")]
-        public bool WedOff { get; set; }
+        public OpenClose Wednesday { get; set; }
 
         [Display(Name = "Thursday")]
-        public bool ThuOff { get; set; }
+        public OpenClose Thursday { get; set; }
 
         [Display(Name = "Friday")]
-        public bool FriOff { get; set; }
+        public OpenClose Friday { get; set; }
 
         [Display(Name = "Saturday")]
-        public bool SatOff { get; set; }
+        public OpenClose Saturday { get; set; }
 
         [Display(Name = "Sunday")]
-        public bool SunOff { get; set; }
-        
+        public OpenClose Sunday { get; set; }
+
         public DateTime DateTimeUpdated { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
 
         [Required]
         public OutletModel OutletId { get; set; }
+
     }
 }

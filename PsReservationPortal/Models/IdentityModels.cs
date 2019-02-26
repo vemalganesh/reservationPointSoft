@@ -29,6 +29,7 @@ namespace PsReservationPortal.Models
         public DbSet<ReservationExclusionDateModel> ReservationExclusionDate { get; set; }
         public DbSet<TableModel> Table { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
+        public DbSet<ReservationOrderModel> ReservationOrder { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

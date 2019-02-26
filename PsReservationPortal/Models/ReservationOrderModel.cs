@@ -15,7 +15,7 @@ namespace PsReservationPortal.Models
         [Key]
         public long ReservationNum { get; set; }
         
-        public string Name { get; set; }
+        public string DinerName { get; set; }
 
         
         [DataType(DataType.PhoneNumber)]
@@ -26,10 +26,12 @@ namespace PsReservationPortal.Models
 
         public TableModel TableId { get; set; }
 
-        public String ReserveRequest { get; set; }
+        public String ReservationRequest { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
 
         public DateTime DateTimeUpdated { get; set; }
+
+        public DinerModel dinerModel { get; set }
     }
 }

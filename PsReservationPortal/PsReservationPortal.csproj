@@ -277,6 +277,10 @@
     <Compile Include="Migrations\201902250724195_Database_Changes.Designer.cs">
       <DependentUpon>201902250724195_Database_Changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902261054335_UpdatedReservationOrderModel.cs" />
+    <Compile Include="Migrations\201902261054335_UpdatedReservationOrderModel.Designer.cs">
+      <DependentUpon>201902261054335_UpdatedReservationOrderModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustTableModel.cs" />
@@ -3989,6 +3993,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902250724195_Database_Changes.resx">
       <DependentUpon>201902250724195_Database_Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902261054335_UpdatedReservationOrderModel.resx">
+      <DependentUpon>201902261054335_UpdatedReservationOrderModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

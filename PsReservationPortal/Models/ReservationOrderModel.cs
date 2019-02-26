@@ -32,6 +32,6 @@ namespace PsReservationPortal.Models
 
         public DateTime DateTimeUpdated { get; set; }
 
-        public DinerModel dinerModel { get; set }
+        public DinerModel DinerModel { get; set; }
     }
 }

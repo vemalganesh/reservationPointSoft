@@ -12,27 +12,32 @@ using PsReservationPortal.ViewModels;
 using Kendo.Mvc.Extensions;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-//Edit Outlet details
-//Mange reservation settings
-//Manage reservation
+
+//Assign User under company
+//Create Outlet
+//Edit Outlet details and manager
+//Edit company profile
 
 namespace PsReservationPortal.Controllers
 {
     [Authorize]
-    public class OutletController : Controller
+    public class CompanyController : Controller
     {
         private ApplicationDbContext _context;
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
 
-        public OutletController()
+        public CompanyController()
         {
             _context = new ApplicationDbContext();
         }
         
         public ActionResult Index()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+            List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
+            CompanyDashboardViewModel outletList = new CompanyDashboardViewModel();
+            outletList.Outlets = outlets;
+            return View(outletList);
         }
 
         public ActionResult Create()
@@ -95,5 +100,7 @@ namespace PsReservationPortal.Controllers
             outletlist = _context.Outlet.Where(c => c.Company.Id == companyid).ToList();
             return outletlist;
         }
+
+        
     }
 }

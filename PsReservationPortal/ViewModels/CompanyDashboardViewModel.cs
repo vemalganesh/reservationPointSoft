@@ -6,7 +6,7 @@ using PsReservationPortal.Models;
 
 namespace PsReservationPortal.ViewModels
 {
-    public class OutletDashboardViewModel
+    public class CompanyDashboardViewModel
     {
         public List<OutletModel> Outlets { get; set; }
     }

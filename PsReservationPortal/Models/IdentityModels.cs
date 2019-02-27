@@ -24,12 +24,12 @@ namespace PsReservationPortal.Models
         public DbSet<UserExtraInfoModel> UserExtraInfo { get; set; }
         public DbSet<CompanyModel> Company { get; set; }
         public DbSet<OutletModel> Outlet { get; set; }
-        public DbSet<ReservationDaySettingModel> ReservationDaySetting { get; set; }
-        public DbSet<OperationHourSettingModel> OperationHourSetting { get; set; }
-        public DbSet<CloseDateSettingModel> CloseDateSetting { get; set; }
+        public DbSet<ReservationExclusionDayModel> ReservationExclusionDay { get; set; }
+        public DbSet<ReservationHourSettingModel> ReservationHourSetting { get; set; }
+        public DbSet<ReservationExclusionDateModel> ReservationExclusionDate { get; set; }
         public DbSet<TableModel> Table { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
-        public DbSet<OperationTypeModel> OperationType { get; set; }
+        public DbSet<ReservationOrderModel> ReservationOrder { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

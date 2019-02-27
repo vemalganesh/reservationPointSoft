@@ -74,6 +74,16 @@ namespace PsReservationPortal.Controllers
                 AssignRole = await UserManager.GetRolesAsync(userId),
                 UserName = User.Identity.GetUserName()
             };
+
+            if(model.AssignRole.Contains("CompanyAdmin") && ! model.AssignRole.Contains("SuperAdmin"))
+            {
+                return RedirectToAction("Index", "Company");
+            }
+            else if(model.AssignRole.Contains("Manager") && !model.AssignRole.Contains("SuperAdmin"))
+            {
+                return RedirectToAction("Index", "Outlet");
+            }
+
             return View(model);
         }
 

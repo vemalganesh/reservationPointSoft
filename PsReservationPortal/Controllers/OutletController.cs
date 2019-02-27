@@ -22,8 +22,6 @@ namespace PsReservationPortal.Controllers
     public class OutletController : Controller
     {
         private ApplicationDbContext _context;
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
 
         public OutletController()
         {

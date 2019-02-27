@@ -12,10 +12,10 @@ using PsReservationPortal.ViewModels;
 using Kendo.Mvc.Extensions;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-
-//Assign User under company
+//Change user roles
 //Create Outlet
-//Edit Outlet details and manager
+//Edit Outlet details
+//Assign User to outlet
 //Edit company profile
 
 namespace PsReservationPortal.Controllers
@@ -24,42 +24,71 @@ namespace PsReservationPortal.Controllers
     public class CompanyController : Controller
     {
         private ApplicationDbContext _context;
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
         public CompanyController()
         {
             _context = new ApplicationDbContext();
         }
-        
+        public CompanyController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+            _context = new ApplicationDbContext();
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         public ActionResult Index()
         {
+            CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
-            List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
-            CompanyDashboardViewModel outletList = new CompanyDashboardViewModel();
-            outletList.Outlets = outlets;
-            return View(outletList);
-        }
+            var users = _context.Users.ToList();
 
-        public ActionResult Create()
-        {
-            return View();
-        }
+            List<UserInfoViewModel> staffs = new List<UserInfoViewModel>();
 
-        [HttpPost]
-        public ActionResult Create(OutletModel outlet)
-        {
-            if(ModelState.IsValid)
+            foreach(UserExtraInfoModel user in company.UserExtraInfos)
             {
-                outlet.DateTimeCreated = DateTime.UtcNow;
-                outlet.DateTimeUpdated = DateTime.UtcNow;
-                _context.Outlet.Add(outlet);
-                _context.SaveChanges();
-                return RedirectToAction("Index");
+                UserInfoViewModel userdetail = new UserInfoViewModel();
+                var userprofile = users.FirstOrDefault(a => a.Id == user.UserId);
+                userdetail.UserId = user.UserId;
+                userdetail.Activated = user.Activated;
+                userdetail.Suspended = user.Suspended;
+                userdetail.UserEmail = userprofile.Email;
+                userdetail.UserRoles = GetUserRoles(user.UserId);
+                staffs.Add(userdetail);
             }
-
-            return View();
+            
+            List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
+            vm.Outlets = outlets;
+            vm.Users = staffs;
+            vm.Company = company;
+            return View(vm);
         }
-
+        
         public ActionResult Edit(int id)
         {
             OutletModel outlet = _context.Outlet.Find(id);
@@ -67,24 +96,17 @@ namespace PsReservationPortal.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(OutletModel outlet)
+        public ActionResult Edit(CompanyModel company)
         {
-            if(ModelState.IsValid)
+            if(company.Name != "")
             {
-                outlet.DateTimeUpdated = DateTime.UtcNow;
-                _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
+                _context.Entry(company).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(outlet);
+            return View(company);
         }
-
-        public ActionResult Details(int id)
-        {
-            OutletModel outlet = _context.Outlet.Find(id);
-            return View(outlet);
-        }
-
+        
         [HttpPost]
         public ActionResult DeleteOutlet(int id)
         {
@@ -101,6 +123,19 @@ namespace PsReservationPortal.Controllers
             return outletlist;
         }
 
-        
+        private List<string> GetUserRoles(string userid)
+        {
+            List<string> rolelist = new List<string>();
+
+            var userrole = UserManager.GetRolesAsync(userid);
+            if (userrole != null)
+            {
+                foreach (var role in userrole.Result)
+                {
+                    rolelist.Add(role);
+                }
+            }
+            return rolelist;
+        }
     }
 }

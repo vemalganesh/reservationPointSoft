@@ -14,8 +14,6 @@ namespace PsReservationPortal.Models
         public int Id { get; set; }
 
         public Days Day { get; set; }
-
-        public int OperationType { get; set; }
         
         public int StartHour { get; set; }
 

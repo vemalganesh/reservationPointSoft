@@ -7,13 +7,13 @@ namespace PsReservationPortal.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class ChangesToOperationHourSettingModel : IMigrationMetadata
+    public sealed partial class ChangesForMerging : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangesToOperationHourSettingModel));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangesForMerging));
         
         string IMigrationMetadata.Id
         {
-            get { return "201902260656379_ChangesToOperationHourSettingModel"; }
+            get { return "201902270229128_ChangesForMerging"; }
         }
         
         string IMigrationMetadata.Source

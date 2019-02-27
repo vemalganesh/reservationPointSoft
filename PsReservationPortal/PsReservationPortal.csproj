@@ -281,20 +281,21 @@
     <Compile Include="Migrations\201902261054335_UpdatedReservationOrderModel.Designer.cs">
       <DependentUpon>201902261054335_UpdatedReservationOrderModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902260718592_OperationTypeModel.cs" />
-    <Compile Include="Migrations\201902260718592_OperationTypeModel.Designer.cs">
-      <DependentUpon>201902260718592_OperationTypeModel.cs</DependentUpon>
+    <Compile Include="Migrations\201902270229128_ChangesForMerging.cs" />
+    <Compile Include="Migrations\201902270229128_ChangesForMerging.Designer.cs">
+      <DependentUpon>201902270229128_ChangesForMerging.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustTableModel.cs" />
     <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\OperationTypeModel.cs" />
+    <Compile Include="Models\OperationHourSettingModel.cs" />
     <Compile Include="Models\ReservationOrderModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\DinerModel.cs" />
-    <Compile Include="Models\OperationTypeModel.cs" />
     <Compile Include="Models\TableModel.cs" />
     <Compile Include="Models\OutletModel.cs" />
     <Compile Include="Models\ReservationExclusionDayModel.cs" />
@@ -4002,6 +4003,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902261054335_UpdatedReservationOrderModel.resx">
       <DependentUpon>201902261054335_UpdatedReservationOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902270229128_ChangesForMerging.resx">
+      <DependentUpon>201902270229128_ChangesForMerging.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,6 +1,6 @@
-﻿@model PsReservationPortal.ViewModels.MaintDashboardViewModel
+﻿@model PsReservationPortal.ViewModels.OutletDashboardViewModel
 @{
-    ViewBag.Title = "Maintenance";
+    ViewBag.Title = "Outlet";
 }
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
@@ -34,11 +34,11 @@
 </style>
 
 <div class="container-fluid">
-    <h2>System Maintenance Dashboard</h2>
+    <h2>Dashboard</h2>
     <hr />
     <div>
-        <h4>User Listing</h4>
-        @if (Model.UserInfoList.Count > 0)
+        <h4>Outlet Listing</h4>
+        @if (Model.Outlets.Count > 0)
         {
             <table class="table table-bordered table-hover table-sm" id="usertable">
                 <thead class="tableheader">

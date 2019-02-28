@@ -660,6 +660,7 @@
     <Content Include="Views\Outlet\AssignOutlet.cshtml" />
     <Content Include="Views\Outlet\Create.cshtml" />
     <Content Include="Views\Outlet\Edit.cshtml" />
+    <Content Include="Views\Company\EditStaffRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

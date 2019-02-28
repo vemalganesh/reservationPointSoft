@@ -83,7 +83,10 @@ namespace PsReservationPortal.Controllers
             {
                 return RedirectToAction("Index", "Outlet");
             }
-
+            else if (model.AssignRole.Contains("Diner") && !model.AssignRole.Contains("SuperAdmin"))
+            {
+                return RedirectToAction("Index", "Reservation");
+            }
             return View(model);
         }
 

@@ -43,10 +43,8 @@ namespace PsReservationPortal.Controllers
         {
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
-            List<UserExtraInfoModel> managers = new List<UserExtraInfoModel>();
             if (ModelState.IsValid)
             {
-                outlet.Managers = managers;
                 outlet.DateTimeCreated = DateTime.UtcNow;
                 outlet.DateTimeUpdated = DateTime.UtcNow;
                 outlet.Company = company;
@@ -111,6 +109,11 @@ namespace PsReservationPortal.Controllers
             {
                 UserExtraInfoModel user = _context.UserExtraInfo.Find(userId);
                 var outlet = GetOneOutlet(outletId);
+                if(outlet.Managers == null)
+                {
+                    List<UserExtraInfoModel> managers = new List<UserExtraInfoModel>();
+                    outlet.Managers = managers;
+                }
                 outlet.Managers.Add(user);
                 _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
@@ -123,7 +126,7 @@ namespace PsReservationPortal.Controllers
         {
             var user = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId);
             //Need to change if we allow 1 manager to manage multiple Outlets
-            var outlet = _context.Outlet.Where(a => a.Managers.Contains(user)).FirstOrDefault();
+            OutletModel outlet = _context.Outlet.Where(a=> a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();
 
             outlet.Managers.Remove(user);
             _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;

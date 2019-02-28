@@ -20,7 +20,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,PointsoftSupport,CompanyAdmin")]
     public class CompanyController : Controller
     {
         private ApplicationDbContext _context;
@@ -31,6 +31,7 @@ namespace PsReservationPortal.Controllers
         {
             _context = new ApplicationDbContext();
         }
+
         public CompanyController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -61,24 +62,26 @@ namespace PsReservationPortal.Controllers
                 _userManager = value;
             }
         }
+        
+        
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
+
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
             var users = _context.Users.ToList();
             CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
             List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
             List<UserInfoViewModel> staffs = new List<UserInfoViewModel>();
-            
-            foreach(UserExtraInfoModel user in company.UserExtraInfos)
+
+            foreach (UserExtraInfoModel user in company.UserExtraInfos)
             {
                 UserInfoViewModel userdetail = new UserInfoViewModel();
-                var userinfo = _context.UserExtraInfo.Find(user.UserId);
                 var userprofile = users.FirstOrDefault(a => a.Id == user.UserId);
-                var outlet = outlets.Where(a => a.Managers.Contains(userinfo)).FirstOrDefault();
+                var outlet = outlets.Where(a => a.Managers != null && a.Managers.Select(b => b.UserId).Contains(user.UserId)).FirstOrDefault();
                 userdetail.UserId = user.UserId;
                 userdetail.Activated = user.Activated;
-                if(outlet != null)
+                if (outlet != null)
                 {
                     userdetail.OutletName = outlet.Name + " - " + outlet.Location;
                 }
@@ -88,7 +91,6 @@ namespace PsReservationPortal.Controllers
                 userdetail.UserRoles = GetUserRoles(user.UserId);
                 staffs.Add(userdetail);
             }
-            
             
             vm.Outlets = outlets;
             vm.Users = staffs;
@@ -113,7 +115,43 @@ namespace PsReservationPortal.Controllers
             }
             return View(company);
         }
-        
+
+        public ActionResult EditStaffRoles(string id)
+        {
+            var user = _context.Users.FirstOrDefault(a => a.Id == id);
+            EditUserViewModel vm = new EditUserViewModel();
+            vm.UserId = user.Id;
+            vm.UserEmail = user.Email;
+            vm.UserRoles = GetUserRolewithMultiSelect(id);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditStaffRoles(string userId, string[] rolesid)
+        {
+            if (rolesid != null)
+            {
+                var userInDb = _context.Users.SingleOrDefault(u => u.Id == userId);
+                
+                var userroles = _context.Roles.Where(r => rolesid.Contains(r.Id)).ToList();
+
+                //remove all user current roles
+                var currentroles = await UserManager.GetRolesAsync(userId);
+                await UserManager.RemoveFromRolesAsync(userId, currentroles.ToArray());
+
+                //add new selected roles to user
+                foreach (var selecteduserole in userroles)
+                {
+                    await UserManager.AddToRoleAsync(userId, selecteduserole.Name);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Company");
+            }
+            return View();
+        }
+
         private List<OutletModel> GetOutletsUserAssociatedWith(long companyid)
         {
             List<OutletModel> outletlist = new List<OutletModel>();
@@ -134,6 +172,25 @@ namespace PsReservationPortal.Controllers
                 }
             }
             return rolelist;
+        }
+
+        private MultiSelectList GetUserRolewithMultiSelect(string userid)
+        {
+            string associatedroleid = "";
+            var roles = _context.Roles.Where(r => r.Users.Any(u => u.UserId == userid)).ToList();
+            foreach (var role in roles)
+            {
+                associatedroleid = associatedroleid + role.Id + ",";
+            }
+            if (associatedroleid.EndsWith(","))
+                associatedroleid = associatedroleid.Remove(associatedroleid.Length - 1);
+
+            var allroles = _context.Roles.ToList();
+
+            MultiSelectList retmlist = new MultiSelectList(allroles, "Id", "Name", new[] { associatedroleid });
+
+            return retmlist;
+
         }
     }
 }

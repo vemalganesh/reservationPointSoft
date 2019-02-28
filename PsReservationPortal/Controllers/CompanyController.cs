@@ -63,26 +63,33 @@ namespace PsReservationPortal.Controllers
         }
         public ActionResult Index()
         {
-            CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
             var users = _context.Users.ToList();
-
+            CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
+            List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
             List<UserInfoViewModel> staffs = new List<UserInfoViewModel>();
-
+            
             foreach(UserExtraInfoModel user in company.UserExtraInfos)
             {
                 UserInfoViewModel userdetail = new UserInfoViewModel();
+                var userinfo = _context.UserExtraInfo.Find(user.UserId);
                 var userprofile = users.FirstOrDefault(a => a.Id == user.UserId);
+                var outlet = outlets.Where(a => a.Managers.Contains(userinfo)).FirstOrDefault();
                 userdetail.UserId = user.UserId;
                 userdetail.Activated = user.Activated;
+                if(outlet != null)
+                {
+                    userdetail.OutletName = outlet.Name + " - " + outlet.Location;
+                }
                 userdetail.Suspended = user.Suspended;
+                userdetail.UserName = userprofile.UserName;
                 userdetail.UserEmail = userprofile.Email;
                 userdetail.UserRoles = GetUserRoles(user.UserId);
                 staffs.Add(userdetail);
             }
             
-            List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
+            
             vm.Outlets = outlets;
             vm.Users = staffs;
             vm.Company = company;
@@ -91,8 +98,8 @@ namespace PsReservationPortal.Controllers
         
         public ActionResult Edit(int id)
         {
-            OutletModel outlet = _context.Outlet.Find(id);
-            return View(outlet);
+            CompanyModel company = _context.Company.Find(id);
+            return View(company);
         }
 
         [HttpPost]
@@ -107,15 +114,6 @@ namespace PsReservationPortal.Controllers
             return View(company);
         }
         
-        [HttpPost]
-        public ActionResult DeleteOutlet(int id)
-        {
-            OutletModel outlet = _context.Outlet.Find(id);
-            _context.Outlet.Remove(outlet);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         private List<OutletModel> GetOutletsUserAssociatedWith(long companyid)
         {
             List<OutletModel> outletlist = new List<OutletModel>();

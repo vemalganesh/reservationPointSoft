@@ -41,13 +41,19 @@ namespace PsReservationPortal.Controllers
         [HttpPost]
         public ActionResult Create(OutletModel outlet)
         {
-            if(ModelState.IsValid)
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+            List<UserExtraInfoModel> managers = new List<UserExtraInfoModel>();
+            if (ModelState.IsValid)
             {
+                outlet.Managers = managers;
                 outlet.DateTimeCreated = DateTime.UtcNow;
                 outlet.DateTimeUpdated = DateTime.UtcNow;
+                outlet.Company = company;
                 _context.Outlet.Add(outlet);
+                _context.Company.Find(company.Id).Outlets.Add(outlet);
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Company");
             }
 
             return View();
@@ -67,31 +73,77 @@ namespace PsReservationPortal.Controllers
                 outlet.DateTimeUpdated = DateTime.UtcNow;
                 _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect(Request.UrlReferrer.ToString());
             }
             return View(outlet);
         }
-
-        public ActionResult Details(int id)
-        {
-            OutletModel outlet = _context.Outlet.Find(id);
-            return View(outlet);
-        }
-
+        
         [HttpPost]
         public ActionResult DeleteOutlet(int id)
         {
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
             OutletModel outlet = _context.Outlet.Find(id);
+            _context.Company.Find(company.Id).Outlets.Remove(outlet);
             _context.Outlet.Remove(outlet);
             _context.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Company");
         }
 
-        private List<OutletModel> GetOutletsUserAssociatedWith(long companyid)
+        public ActionResult AssignOutlet(string id)
         {
-            List<OutletModel> outletlist = new List<OutletModel>();
-            outletlist = _context.Outlet.Where(c => c.Company.Id == companyid).ToList();
-            return outletlist;
+            var user = _context.Users.FirstOrDefault(a => a.Id == id);
+            var userinfo = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == id);
+            var usercomp = userinfo.Companies.FirstOrDefault();
+            AssignOutletViewModel vm = new AssignOutletViewModel();
+            UserInfoViewModel uservm = new UserInfoViewModel();
+            uservm.UserId = user.Id;
+            uservm.UserName = user.UserName;
+            vm.User = uservm;
+            vm.Outlets = _context.Outlet.Where(a => a.Company.Id == usercomp.Id).ToList();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult AssignOutlet(long outletId, string userId)
+        {
+            if (outletId > 0)
+            {
+                UserExtraInfoModel user = _context.UserExtraInfo.Find(userId);
+                var outlet = GetOneOutlet(outletId);
+                outlet.Managers.Add(user);
+                _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index","Company");
+            }
+            return View();
+        }
+
+        public ActionResult UnAssignOutlet(string userId)
+        {
+            var user = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId);
+            //Need to change if we allow 1 manager to manage multiple Outlets
+            var outlet = _context.Outlet.Where(a => a.Managers.Contains(user)).FirstOrDefault();
+
+            outlet.Managers.Remove(user);
+            _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
+            return RedirectToAction("Index","Company");
+        }
+
+        public OutletModel GetOneOutlet(long id)
+        {
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+            var outlet = _context.Outlet.Where(a => a.Company.Id == company.Id).FirstOrDefault(a => a.Id == id);
+            return outlet;
+        }
+
+        public List<OutletModel>GetAllOutlets()
+        {
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+            return _context.Outlet.Where(a => a.Company.Id == company.Id).ToList();
         }
     }
 }

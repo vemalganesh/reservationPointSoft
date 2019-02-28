@@ -306,6 +306,7 @@
     <Compile Include="Models\UserRegistrationInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AssignOutletViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\CompanyDashboardViewModel.cs" />
     <Compile Include="ViewModels\MaintDashboardViewModel.cs" />
@@ -656,10 +657,12 @@
     <Content Include="Views\Maint\EditUser.cshtml" />
     <Content Include="Views\Company\Edit.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Outlet\AssignOutlet.cshtml" />
+    <Content Include="Views\Outlet\Create.cshtml" />
+    <Content Include="Views\Outlet\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Outlet\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

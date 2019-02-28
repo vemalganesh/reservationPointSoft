@@ -72,8 +72,8 @@
                         <td>@user.Activated</td>
                         <td>@user.Suspended</td>
                         <td>
-                            @Html.ActionLink("Assign", "AssignToOutlet", "Outlet", new { userid = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
-                            @Html.ActionLink("Unassign", "UnAssignToOutlet", "Outlet", new { userid = user.UserId }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to unassign this manager for the outlet?')" })
+                            @Html.ActionLink("Assign", "AssignOutlet", "Outlet", new { id = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
+                            @Html.ActionLink("Unassign", "UnAssignOutlet", "Outlet", new { userId = user.UserId }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to unassign this manager for the outlet?')" })
                         </td>
                     </tr>
                     }
@@ -87,7 +87,7 @@
     </div>
     <hr />
     <div>
-        <h4>Outlet Listing @Html.ActionLink("Add Outlet", "Create", "Outlet", new { @class = "btn btn-info btn-sm m-2" })</h4>
+        <h4>Outlet Listing @Html.ActionLink("Add Outlet", "Create", "Outlet",null, new { @class = "btn btn-info btn-sm m-2" })</h4>
         @if (Model.Outlets.Count > 0)
         {
             <table class="table table-bordered table-hover table-sm" id="outlettable">

@@ -74,6 +74,7 @@
                         <td>
                             @Html.ActionLink("Assign", "AssignOutlet", "Outlet", new { id = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
                             @Html.ActionLink("Unassign", "UnAssignOutlet", "Outlet", new { userId = user.UserId }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to unassign this manager for the outlet?')" })
+                            @Html.ActionLink("Edit Roles", "EditStaffRoles", "Company", new { id = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
                         </td>
                     </tr>
                     }

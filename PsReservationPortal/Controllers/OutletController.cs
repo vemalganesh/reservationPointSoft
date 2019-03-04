@@ -30,7 +30,12 @@ namespace PsReservationPortal.Controllers
         
         public ActionResult Index()
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+
+            var outlet = _context.Outlet.Where(a => a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();
+            OutletDashboardViewModel vm = new OutletDashboardViewModel();
+            vm.Outlet = outlet;
+            return View(vm);
         }
 
         public ActionResult Create()

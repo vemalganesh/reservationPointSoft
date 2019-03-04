@@ -206,7 +206,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AdminController.cs" />
+    <Compile Include="Controllers\Api\CompanyAPIController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\ReservExclDayController.cs" />
+    <Compile Include="Controllers\ReservExclDateController.cs" />
+    <Compile Include="Controllers\OperationHourSettingController.cs" />
+    <Compile Include="Controllers\OperationTypeController.cs" />
     <Compile Include="Controllers\OutletController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MaintController.cs" />
@@ -307,6 +312,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AssignOutletViewModel.cs" />
+    <Compile Include="ViewModels\OutletDashboardViewModel.cs" />
     <Compile Include="ViewModels\EditUserViewModel.cs" />
     <Compile Include="ViewModels\CompanyDashboardViewModel.cs" />
     <Compile Include="ViewModels\MaintDashboardViewModel.cs" />
@@ -661,6 +667,7 @@
     <Content Include="Views\Outlet\Create.cshtml" />
     <Content Include="Views\Outlet\Edit.cshtml" />
     <Content Include="Views\Company\EditStaffRoles.cshtml" />
+    <Content Include="Views\Outlet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

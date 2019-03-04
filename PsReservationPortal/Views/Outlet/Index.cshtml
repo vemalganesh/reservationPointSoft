@@ -1,0 +1,93 @@
+﻿@model PsReservationPortal.ViewModels.OutletDashboardViewModel
+@{
+    ViewBag.Title = "Outlet Index";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<style>
+    .form-inline {
+        display: inline;
+    }
+    #usertable_length label{
+        float :left;
+    }
+    #usertable_filter label{
+        float:right;
+    }
+    .input-sm {
+        margin: 0 5px;
+    }
+    .paginate_button {
+        margin: 0 2px;
+    }
+    .cellaligncenter{
+        text-align:center;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    .btn{
+        min-width:80px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>Dashboard</h2>
+    <hr />
+    <div>
+        <h4>Outlet Profile @Html.ActionLink("Edit", "Edit", "Outlet",new { id = Model.Outlet.Id}, new { @class = "btn btn-info btn-sm m-2" })</h4>
+    </div>
+    <hr />
+    <h3>Settings</h3>
+    <div>
+        <h4>@Html.ActionLink("Reservation", "EditReservSetting", "Outlet", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+        @Html.ActionLink("Operation Type", "Index", "OperationType", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+        @Html.ActionLink("Operation Hour", "Index", "OperationHour", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+        @Html.ActionLink("Reservation Exclusion Date", "Index", "ReservExclDate", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+        @Html.ActionLink("Reservation Exclusion Day", "Edit", "ReservExclDay", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })</h4>
+    </div>
+    @*<div>
+        <h4>Outlet Listing @Html.ActionLink("Add Reservation", "Create", "Reservation",null, new { @class = "btn btn-info btn-sm m-2" })</h4>
+        @if (Model.Reservations.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="table">
+                <thead class="tableheader">
+                    <tr>
+                        <th style="width:20%;">Name</th>
+                        <th style="width:20%;">Location</th>
+                        <th style="width:30%;">Address</th>
+                        <th style="width:20%;">Description</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var outlet in Model.Outlets)
+                    {
+                        <tr>
+                            <td>@outlet.Name</td>
+                            <td>@outlet.Location</td>
+                            <td>@outlet.Address</td>
+                            <td>@outlet.Description</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+                                @Html.ActionLink("Delete", "DeleteOutlet", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to delete this outlet?')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>No Reservations</h4>
+        }
+    </div>*@
+</div>
+
+<script>
+    $(document).ready(function () {
+        //$('#table').DataTable();
+    });
+</script>

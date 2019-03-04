@@ -1,0 +1,132 @@
+﻿@model PsReservationPortal.ViewModels.CompanyDashboardViewModel
+@{
+    ViewBag.Title = "Company";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<style>
+    .form-inline {
+        display: inline;
+    }
+    #usertable_length label{
+        float :left;
+    }
+    #usertable_filter label{
+        float:right;
+    }
+    .input-sm {
+        margin: 0 5px;
+    }
+    .paginate_button {
+        margin: 0 2px;
+    }
+    .cellaligncenter{
+        text-align:center;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    .btn{
+        min-width:80px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>Dashboard</h2>
+    <hr />
+    <div>
+        <h4>Company Profile @Html.ActionLink("Edit", "Edit", "Company",new { id = Model.Company.Id }, new { @class = "btn btn-info btn-sm m-2" })</h4>
+    </div>
+    <hr />
+    <div>
+        <h4>Staffs Listing</h4>
+        @if (Model.Users.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="usertable">
+                <thead class="tableheader">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Outlet</th>
+                        <th>Activated</th>
+                        <th>Suspended</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.UserEmail</td>
+                        <td>
+                            @foreach (string a in user.UserRoles)
+                            {
+                                @a.ToString();<text> </text>
+                            }
+                        </td>
+                        <td>@user.OutletName</td>
+                        <td>@user.Activated</td>
+                        <td>@user.Suspended</td>
+                        <td>
+                            @Html.ActionLink("Assign", "AssignOutlet", "Outlet", new { id = user.UserId }, new { @class = "btn btn-info btn-sm m-2" })
+                            @Html.ActionLink("Unassign", "UnAssignOutlet", "Outlet", new { userId = user.UserId }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to unassign this manager for the outlet?')" })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>No Registered Users under Company Yet!</h4>
+        }
+    </div>
+    <hr />
+    <div>
+        <h4>Outlet Listing @Html.ActionLink("Add Outlet", "Create", "Outlet",null, new { @class = "btn btn-info btn-sm m-2" })</h4>
+        @if (Model.Outlets.Count > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="outlettable">
+                <thead class="tableheader">
+                    <tr>
+                        <th style="width:20%;">Name</th>
+                        <th style="width:20%;">Location</th>
+                        <th style="width:30%;">Address</th>
+                        <th style="width:20%;">Description</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var outlet in Model.Outlets)
+                    {
+                        <tr>
+                            <td>@outlet.Name</td>
+                            <td>@outlet.Location</td>
+                            <td>@outlet.Address</td>
+                            <td>@outlet.Description</td>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+                                @Html.ActionLink("Delete", "DeleteOutlet", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to delete this outlet?')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>No Registered Outlet Yet!</h4>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#usertable').DataTable();
+        $('#outlettable').DataTable();
+    });
+</script>

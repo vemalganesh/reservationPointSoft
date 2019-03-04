@@ -15,7 +15,7 @@ namespace PsReservationPortal.ViewModels
         public bool Suspended { get; set; }
         public List<string> Companies { get; set; }
         public List<string> UserRoles { get; set; }
-
+        public string OutletName { get; set; }
 
     }
 }

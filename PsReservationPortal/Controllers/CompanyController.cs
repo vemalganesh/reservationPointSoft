@@ -68,7 +68,7 @@ namespace PsReservationPortal.Controllers
         {
             var userId = User.Identity.GetUserId();
 
-            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+            var company = GetUserCompany();
             var users = _context.Users.ToList();
             CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
             List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
@@ -109,6 +109,9 @@ namespace PsReservationPortal.Controllers
         {
             if(company.Name != "")
             {
+                CompanyModel oldCompany = GetCompanyById(company.Id);
+                company.Outlets = oldCompany.Outlets;
+                company.UserExtraInfos = oldCompany.UserExtraInfos;
                 _context.Entry(company).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
                 return RedirectToAction("Index");
@@ -191,6 +194,21 @@ namespace PsReservationPortal.Controllers
 
             return retmlist;
 
+        }
+
+        private CompanyModel GetUserCompany()
+        {
+            var userId = User.Identity.GetUserId();
+            var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
+
+            return company;
+        }
+
+        private CompanyModel GetCompanyById(long Id)
+        {
+            var company = _context.Company.FirstOrDefault(x=>x.Id == Id);
+
+            return company;
         }
     }
 }

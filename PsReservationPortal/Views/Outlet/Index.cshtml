@@ -42,11 +42,14 @@
     <hr />
     <h3>Settings</h3>
     <div>
-        <h4>@Html.ActionLink("Reservation", "EditReservSetting", "Outlet", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
-        @Html.ActionLink("Operation Type", "Index", "OperationType", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
-        @Html.ActionLink("Operation Hour", "Index", "OperationHour", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
-        @Html.ActionLink("Reservation Exclusion Date", "Index", "ReservExclDate", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
-        @Html.ActionLink("Reservation Exclusion Day", "Edit", "ReservExclDay", new { id = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })</h4>
+        <h4>
+            @Html.ActionLink("Reservation", "EditReservSetting", "Outlet", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Tables", "Index", "Tables", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Operation Type", "Index", "OperationType", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Operation Hour", "Index", "OperationHour", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Reservation Exclusion Date", "Index", "ReservExclDate", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Reservation Exclusion Day", "Edit", "ReservExclDay", new { outletId = Model.Outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
+        </h4>
     </div>
     @*<div>
         <h4>Outlet Listing @Html.ActionLink("Add Reservation", "Create", "Reservation",null, new { @class = "btn btn-info btn-sm m-2" })</h4>

@@ -30,9 +30,7 @@ namespace PsReservationPortal.Controllers
         
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
-
-            var outlet = _context.Outlet.Where(a => a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();
+            var outlet = GetOutletUserAssociated();
             OutletDashboardViewModel vm = new OutletDashboardViewModel();
             vm.Outlet = outlet;
             return View(vm);
@@ -52,10 +50,22 @@ namespace PsReservationPortal.Controllers
             {
                 outlet.DateTimeCreated = DateTime.UtcNow;
                 outlet.DateTimeUpdated = DateTime.UtcNow;
+
+                ReservationExclusionDayModel ReservExclDay = new ReservationExclusionDayModel();
+                ReservExclDay.Outlet = outlet;
+                ReservExclDay.DateTimeCreated = DateTime.UtcNow;
+                ReservExclDay.DateTimeUpdated = DateTime.UtcNow;
+                _context.ReservationExclusionDay.Add(ReservExclDay);
+
+                outlet.ReservationExclusionDay = ReservExclDay;
+                outlet.CompanyId = company.Id;
                 outlet.Company = company;
+
+                company.Outlets.Add(outlet);
                 _context.Outlet.Add(outlet);
-                _context.Company.Find(company.Id).Outlets.Add(outlet);
+                _context.Entry(company).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
+
                 return RedirectToAction("Index","Company");
             }
 
@@ -73,7 +83,15 @@ namespace PsReservationPortal.Controllers
         {
             if(ModelState.IsValid)
             {
-                outlet.DateTimeUpdated = DateTime.UtcNow;
+                OutletModel oldOutlet = GetOneOutlet(outlet.Id);
+                oldOutlet.DateTimeUpdated = DateTime.UtcNow;
+                oldOutlet.Name = outlet.Name;
+                oldOutlet.Location = outlet.Location;
+                oldOutlet.Address = outlet.Address;
+                oldOutlet.PhoneNum = outlet.PhoneNum;
+                oldOutlet.ContactPersonPhoneNum = outlet.ContactPersonPhoneNum;
+                oldOutlet.Description = outlet.Description;
+                oldOutlet.isActive = outlet.isActive;
                 _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
                 return Redirect(Request.UrlReferrer.ToString());
@@ -81,13 +99,13 @@ namespace PsReservationPortal.Controllers
             return View(outlet);
         }
         
-        [HttpPost]
         public ActionResult DeleteOutlet(int id)
         {
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
-            OutletModel outlet = _context.Outlet.Find(id);
-            _context.Company.Find(company.Id).Outlets.Remove(outlet);
+            OutletModel outlet = GetOneOutlet(id);
+            company.Outlets.Remove(outlet);
+            _context.Entry(company).State = System.Data.Entity.EntityState.Modified;
             _context.Outlet.Remove(outlet);
             _context.SaveChanges();
             return RedirectToAction("Index","Company");
@@ -139,6 +157,24 @@ namespace PsReservationPortal.Controllers
             return RedirectToAction("Index","Company");
         }
 
+        public ActionResult EditReservSetting(long outletId)
+        {
+            return View(GetOneOutlet(outletId));
+        }
+
+        [HttpPost]
+        public ActionResult EditReservSetting(OutletModel outlet)
+        {
+            OutletModel oldOutlet = GetOneOutlet(outlet.Id);
+            oldOutlet.ReservationAllowBefore = outlet.ReservationAllowBefore;
+            oldOutlet.ReservationDuration = outlet.ReservationDuration;
+            outlet.DateTimeUpdated = DateTime.UtcNow;
+
+            _context.Entry(oldOutlet).State = System.Data.Entity.EntityState.Modified;
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Outlet");
+        }
+
         public OutletModel GetOneOutlet(long id)
         {
             var userId = User.Identity.GetUserId();
@@ -152,6 +188,14 @@ namespace PsReservationPortal.Controllers
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
             return _context.Outlet.Where(a => a.Company.Id == company.Id).ToList();
+        }
+
+        public OutletModel GetOutletUserAssociated()
+        {
+            var userId = User.Identity.GetUserId();
+            var outlet = _context.Outlet.Where(a => a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();
+
+            return outlet;
         }
     }
 }

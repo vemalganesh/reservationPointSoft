@@ -23,11 +23,13 @@ namespace PsReservationPortal.Models
 
         public int EndMinute { get; set; }
 
-        [Required]
-        public OutletModel OutletId { get; set; }
+        [ForeignKey("Outlet")]
+        public long OutletId { get; set; }
+        public virtual OutletModel Outlet { get; set; }
 
-        [Required]
-        public OperationTypeModel OperationTypeId { get; set; }
+        [ForeignKey("OperationType")]
+        public int OperationTypeId { get; set; }
+        public virtual OperationTypeModel OperationType { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
 

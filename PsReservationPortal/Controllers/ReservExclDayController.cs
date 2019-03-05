@@ -14,42 +14,61 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
-    public class ReserveExclDayController : Controller
+    [Authorize]
+    public class ReservExclDayController : Controller
     {
         private ApplicationDbContext _context;
 
-        public ReserveExclDayController()
+        public ReservExclDayController()
         {
             _context = new ApplicationDbContext();
         }
 
+        public ActionResult Index()
+        {
+            return RedirectToAction("Index", "Outlet");
+        }
+
+        //get for view
         public ActionResult Edit(long outletId)
         {
-            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.OutletId.Id == outletId);
-            return View(setting);
+            return View(GetReservExclDayByOutletId(outletId));
         }
         
-
         [HttpPost]
-        public ActionResult Edit(ReservationExclusionDayModel setting, long OutletId)
+        public ActionResult Edit(ReservationExclusionDayModel setting)
         {
-            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.Id == OutletId);
-
-            if (setting.DateTimeCreated == null)
-            {
-                setting.DateTimeCreated = DateTime.UtcNow;
-                _context.Entry(outlet).State = System.Data.Entity.EntityState.Added;
-            }
-            else
-            {
-                setting.DateTimeUpdated = DateTime.UtcNow;
-                _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
-            }
-
-            setting.OutletId = outlet;
+            ReservationExclusionDayModel oldSetting = GetReservExclDayByOutletId(setting.Id);
+            oldSetting.Monday = setting.Monday;
+            oldSetting.Tuesday = setting.Tuesday;
+            oldSetting.Wednesday = setting.Wednesday;
+            oldSetting.Thursday = setting.Thursday;
+            oldSetting.Friday = setting.Friday;
+            oldSetting.Saturday = setting.Saturday;
+            oldSetting.Sunday = setting.Sunday;
+            oldSetting.DateTimeUpdated = DateTime.UtcNow;
+            _context.Entry(oldSetting).State = System.Data.Entity.EntityState.Modified;
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Outlet");
+        }
+
+        public OutletModel GetOneOutlet(long Id)
+        {
+            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.Id == Id);
+            return outlet;
+        }
+
+        public ReservationExclusionDayModel GetReservExclDayByOutletId(long OutletId)
+        {
+            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.Outlet.Id == OutletId);
+            return setting;
+        }
+        
+        public ReservationExclusionDayModel GetOneSetting(long id)
+        {
+            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.Id == id);
+            return setting;
         }
     }
 }

@@ -10,10 +10,10 @@ namespace PsReservationPortal.Models
     [Table("ReservationExclusionDay")]
     public class ReservationExclusionDayModel
     {
-        public enum OpenClose { Open, Close }
+        public enum OpenClose { Open = 1, Close = 0 }
 
-        [Key]
-        public int Id { get; set; }
+        [Key, ForeignKey("Outlet")]
+        public long Id { get; set; }
 
         [Display(Name = "Monday")]
         public OpenClose Monday { get; set; }
@@ -41,7 +41,7 @@ namespace PsReservationPortal.Models
         public DateTime DateTimeCreated { get; set; }
 
         [Required]
-        public OutletModel OutletId { get; set; }
+        public virtual OutletModel Outlet { get; set; }
 
     }
 }

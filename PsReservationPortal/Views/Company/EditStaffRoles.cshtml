@@ -1,6 +1,6 @@
 ﻿@model PsReservationPortal.ViewModels.EditUserViewModel
 @{
-    ViewBag.Title = "Manage Staff";
+    ViewBag.Title = "Edit Staff Roles";
 }
 
 <style>
@@ -28,7 +28,7 @@
         @Html.DropDownList("rolesid", (MultiSelectList)Model.UserRoles, new { @class = "form-control", multiple = "multiple" })
         <small class="form-text text-muted">Ctrl+click to select multiple</small>
     </div>
-    @*Suspend staff / make staff inactive function*@
+    
     <button id="submit" type="submit" class="btn btn-primary mb-2">Save</button>
 }
 

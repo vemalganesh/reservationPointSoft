@@ -119,7 +119,7 @@ namespace PsReservationPortal.Controllers
             return View(company);
         }
 
-        public ActionResult EditStaffRoles(string id)
+        public ActionResult ManageStaff(string id)
         {
             var user = _context.Users.FirstOrDefault(a => a.Id == id);
             EditUserViewModel vm = new EditUserViewModel();
@@ -131,7 +131,7 @@ namespace PsReservationPortal.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditStaffRoles(string userId, string[] rolesid)
+        public async Task<ActionResult> ManageStaff(string userId, string[] rolesid)
         {
             if (rolesid != null)
             {
@@ -183,12 +183,13 @@ namespace PsReservationPortal.Controllers
             var roles = _context.Roles.Where(r => r.Users.Any(u => u.UserId == userid)).ToList();
             foreach (var role in roles)
             {
+                if(role.Name == "CompanyAdmin" || role.Name == "Manager")
                 associatedroleid = associatedroleid + role.Id + ",";
             }
             if (associatedroleid.EndsWith(","))
                 associatedroleid = associatedroleid.Remove(associatedroleid.Length - 1);
 
-            var allroles = _context.Roles.ToList();
+            var allroles = _context.Roles.Where(x => x.Name == "CompanyAdmin" || x.Name == "Manager" || x.Name == "Users").ToList();
 
             MultiSelectList retmlist = new MultiSelectList(allroles, "Id", "Name", new[] { associatedroleid });
 

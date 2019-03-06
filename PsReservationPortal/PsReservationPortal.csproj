@@ -295,6 +295,10 @@
     <Compile Include="Migrations\201903050429073_Update-DB.Designer.cs">
       <DependentUpon>201903050429073_Update-DB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903060418036_UpdateOperationTypeModelStructure.cs" />
+    <Compile Include="Migrations\201903060418036_UpdateOperationTypeModelStructure.Designer.cs">
+      <DependentUpon>201903060418036_UpdateOperationTypeModelStructure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustTableModel.cs" />
@@ -674,6 +678,9 @@
     <Content Include="Views\Outlet\Index.cshtml" />
     <Content Include="Views\ReservExclDay\Edit.cshtml" />
     <Content Include="Views\Outlet\EditReservSetting.cshtml" />
+    <Content Include="Views\OperationType\Create.cshtml" />
+    <Content Include="Views\OperationType\Index.cshtml" />
+    <Content Include="Views\OperationType\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -746,6 +753,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903050429073_Update-DB.resx">
       <DependentUpon>201903050429073_Update-DB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903060418036_UpdateOperationTypeModelStructure.resx">
+      <DependentUpon>201903060418036_UpdateOperationTypeModelStructure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -681,6 +681,9 @@
     <Content Include="Views\OperationType\Create.cshtml" />
     <Content Include="Views\OperationType\Index.cshtml" />
     <Content Include="Views\OperationType\Edit.cshtml" />
+    <Content Include="Views\OperationHourSetting\Create.cshtml" />
+    <Content Include="Views\OperationHourSetting\Edit.cshtml" />
+    <Content Include="Views\OperationHourSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,74 @@
+﻿@model PsReservationPortal.Models.OperationHourSettingModel
+@{
+    ViewBag.Title = "Operation Hour Settings";
+}
+
+<h2>Outlet - Operation Hour Settings</h2>
+
+@using (Html.BeginForm("Create", "OperationHourSetting", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Day, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Day" id="Day" class="form-control">
+                <option value="1">Monday</option>
+                <option value="2">Tuesday</option>
+                <option value="3">Wednesday</option>
+                <option value="4">Thursday</option>
+                <option value="5">Friday</option>
+                <option value="6">Saturday</option>
+                <option value="7">Sunday</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Operation Type</label>
+        <div class="col-md-10">
+            <select name="OperationTypeId" id="OperationTypeId" class="form-control">
+                @foreach (var item in ViewBag.OperationTypes)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <div class="row justify-content-start">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.StartHour, new { @class = "control-label" })<br />
+                    @Html.TextBoxFor(x => x.StartHour, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.StartMinute, new { @class = "control-label" })<br />
+                    @Html.TextBoxFor(x => x.StartMinute, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="row justify-content-start">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.EndHour, new { @class = "control-label" })<br />
+                    @Html.TextBoxFor(x => x.EndHour, new { @class = "form-control" })
+                </div>
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.EndMinute, new { @class = "control-label" })<br />
+                    @Html.TextBoxFor(x => x.EndMinute, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

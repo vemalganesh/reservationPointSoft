@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,PointsoftSupport,CompanyAdmin,Manager")]
     public class ReservExclDateController : Controller
     {
         private ApplicationDbContext _context;

@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
+    [Authorize(Roles = "SuperAdmin,PointsoftSupport,CompanyAdmin,Manager")]
     public class OperationTypeController : Controller
     {
         private ApplicationDbContext _context;
@@ -59,7 +60,7 @@ namespace PsReservationPortal.Controllers
 
         public ActionResult Edit(int id)
         {
-            OperationTypeModel setting = _context.OperationType.Find(id);
+            OperationTypeModel setting = _context.OperationType.FirstOrDefault(x=> x.Id == id);
             return View(setting);
         }
 
@@ -94,9 +95,14 @@ namespace PsReservationPortal.Controllers
             return RedirectToAction("Index", "OperationType", new { outletId = outlet.Id });
         }
 
-        public OperationTypeModel GetOneOperationType (int id)
+        private OperationTypeModel GetOneOperationType (int id)
         {
             return _context.OperationType.FirstOrDefault(x => x.Id == id);
+        }
+
+        private List<OperationTypeModel> GetOperationTypesByOutletId(long outletId)
+        {
+            return _context.OperationType.Where(x => x.OutletId == outletId).ToList();
         }
     }
 }

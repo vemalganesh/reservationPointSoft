@@ -157,9 +157,9 @@ namespace PsReservationPortal.Controllers
             return RedirectToAction("Index","Company");
         }
 
-        public ActionResult EditReservSetting(long outletId)
+        public ActionResult EditReservSetting()
         {
-            return View(GetOneOutlet(outletId));
+            return View(GetOutletUserAssociated());
         }
 
         [HttpPost]

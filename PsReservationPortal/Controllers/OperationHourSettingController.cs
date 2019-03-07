@@ -24,9 +24,10 @@ namespace PsReservationPortal.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Index(long outletId)
+        public ActionResult Index()
         {
-            List<OperationHourSettingModel> setting = _context.OperationHourSetting.Where(x => x.OutletId == outletId).ToList();
+            var outlet = GetOutletUserAssociated();
+            List<OperationHourSettingModel> setting = _context.OperationHourSetting.Where(x => x.OutletId == outlet.Id).ToList();
             return View(setting);
         }
 
@@ -55,7 +56,7 @@ namespace PsReservationPortal.Controllers
                 _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
 
-                return RedirectToAction("Index", "OperationHourSetting", new { outletId = outlet.Id });
+                return RedirectToAction("Index");
             }
 
             return View();
@@ -88,7 +89,7 @@ namespace PsReservationPortal.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index", "OperationHourSetting", new { outletId = oldSetting.OutletId });
+            return RedirectToAction("Index");
         }
 
         public ActionResult DeleteSetting(int id)
@@ -101,7 +102,7 @@ namespace PsReservationPortal.Controllers
             _context.OperationHourSetting.Remove(setting);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "OperationHourSetting", new { outletId = outlet.Id });
+            return RedirectToAction("Index");
         }
         
         private OperationHourSettingModel GetOneOperationHour(int id)

@@ -16,9 +16,13 @@ namespace PsReservationPortal.Models
         public string ExlusionDateName { get; set; }
 
         [Display(Name = "Date From")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateFrom { get; set; }
 
         [Display(Name = "Date To")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DateTo { get; set; }
 
         public DateTime DateTimeUpdated { get; set; }

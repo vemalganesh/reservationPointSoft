@@ -24,9 +24,10 @@ namespace PsReservationPortal.Controllers
             _context = new ApplicationDbContext();
         }
 
-        public ActionResult Index(long outletId)
+        public ActionResult Index()
         {
-            List<OperationTypeModel> setting = _context.OperationType.Where(x => x.OutletId == outletId).ToList();
+            var outlet = GetOutletUserAssociated();
+            List<OperationTypeModel> setting = _context.OperationType.Where(x => x.OutletId == outlet.Id).ToList();
             return View(setting);
         }
 
@@ -38,8 +39,7 @@ namespace PsReservationPortal.Controllers
         [HttpPost]
         public ActionResult Create(OperationTypeModel setting)
         {
-            var userId = User.Identity.GetUserId();
-            var outlet = _context.Outlet.FirstOrDefault(x => x.Managers.Any(z => z.UserId == userId));
+            var outlet = GetOutletUserAssociated();
             if (ModelState.IsValid)
             {
                 setting.DateTimeCreated = DateTime.UtcNow;
@@ -52,7 +52,7 @@ namespace PsReservationPortal.Controllers
                 _context.Entry(outlet).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();
 
-                return RedirectToAction("Index", "OperationType", new { outletId = outlet.Id });
+                return RedirectToAction("Index");
             }
 
             return View();
@@ -78,13 +78,12 @@ namespace PsReservationPortal.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction("Index", "OperationType", new { outletId = oldSetting.OutletId });
+            return RedirectToAction("Index");
         }
 
         public ActionResult DeleteType(int id)
         {
-            var userId = User.Identity.GetUserId();
-            var outlet = _context.Outlet.FirstOrDefault(x => x.Managers.Any(z => z.UserId == userId));
+            var outlet = GetOutletUserAssociated();
             var setting = GetOneOperationType(id);
             
             outlet.OperationTypes.Remove(setting);
@@ -92,7 +91,7 @@ namespace PsReservationPortal.Controllers
             _context.OperationType.Remove(setting);
             _context.SaveChanges();
 
-            return RedirectToAction("Index", "OperationType", new { outletId = outlet.Id });
+            return RedirectToAction("Index");
         }
 
         private OperationTypeModel GetOneOperationType (int id)
@@ -103,6 +102,14 @@ namespace PsReservationPortal.Controllers
         private List<OperationTypeModel> GetOperationTypesByOutletId(long outletId)
         {
             return _context.OperationType.Where(x => x.OutletId == outletId).ToList();
+        }
+
+        private OutletModel GetOutletUserAssociated()
+        {
+            var userId = User.Identity.GetUserId();
+            var outlet = _context.Outlet.Where(a => a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();
+
+            return outlet;
         }
     }
 }

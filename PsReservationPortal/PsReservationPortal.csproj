@@ -306,6 +306,10 @@
     <Compile Include="Migrations\201903070947238_ApiKeyHandler.Designer.cs">
       <DependentUpon>201903070947238_ApiKeyHandler.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903080831422_ToFixSomeMigrationIssue.cs" />
+    <Compile Include="Migrations\201903080831422_ToFixSomeMigrationIssue.Designer.cs">
+      <DependentUpon>201903080831422_ToFixSomeMigrationIssue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApiKeyModel.cs" />
@@ -3271,6 +3275,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903070947238_ApiKeyHandler.resx">
       <DependentUpon>201903070947238_ApiKeyHandler.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903080831422_ToFixSomeMigrationIssue.resx">
+      <DependentUpon>201903080831422_ToFixSomeMigrationIssue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

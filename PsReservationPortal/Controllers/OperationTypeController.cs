@@ -42,8 +42,8 @@ namespace PsReservationPortal.Controllers
             var outlet = GetOutletUserAssociated();
             if (ModelState.IsValid)
             {
-                setting.DateTimeCreated = DateTime.UtcNow;
-                setting.DateTimeUpdated = DateTime.UtcNow;
+                setting.Created = DateTime.UtcNow;
+                setting.Updated = DateTime.UtcNow;
                 setting.OutletId = outlet.Id;
                 setting.Outlet = outlet;
                 outlet.OperationTypes.Add(setting);
@@ -70,9 +70,9 @@ namespace PsReservationPortal.Controllers
             OperationTypeModel oldSetting = GetOneOperationType(setting.Id);
             if (ModelState.IsValid)
             {
-                oldSetting.DateTimeUpdated = DateTime.UtcNow;
+                oldSetting.Updated = DateTime.UtcNow;
                 oldSetting.Name = setting.Name;
-                oldSetting.isAllowReserve = setting.isAllowReserve;
+                oldSetting.IsAllowReserve = setting.IsAllowReserve;
 
                 _context.Entry(oldSetting).State = System.Data.Entity.EntityState.Modified;
                 _context.SaveChanges();

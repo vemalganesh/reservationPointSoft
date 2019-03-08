@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using PsReservationPortal.Models;
 
 [assembly: OwinStartupAttribute(typeof(PsReservationPortal.Startup))]
 namespace PsReservationPortal

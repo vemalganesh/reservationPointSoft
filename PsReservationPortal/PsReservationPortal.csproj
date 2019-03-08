@@ -208,6 +208,7 @@
     <Compile Include="Controllers\Api\AdminController.cs" />
     <Compile Include="Controllers\Api\CompanyAPIController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\ReservExclDayController.cs" />
     <Compile Include="Controllers\ReservExclDateController.cs" />
     <Compile Include="Controllers\OperationHourSettingController.cs" />
@@ -3182,6 +3183,9 @@
     <Content Include="Scripts\Kendo\messages\kendo.messages.zh-CN.min.js.map" />
     <Content Include="Scripts\Kendo\messages\kendo.messages.zh-HK.min.js.map" />
     <Content Include="Scripts\Kendo\messages\kendo.messages.zh-TW.min.js.map" />
+    <Content Include="Views\Table\Create.cshtml" />
+    <Content Include="Views\Table\Edit.cshtml" />
+    <Content Include="Views\Table\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

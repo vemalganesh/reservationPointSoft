@@ -37,14 +37,14 @@
     <h2>Dashboard</h2>
     <hr />
     <div>
-        <h4>Outlet Profile @Html.ActionLink("Edit", "Edit", "Outlet",new { id = Model.Outlet.Id}, new { @class = "btn btn-info btn-sm m-2" })</h4>
+        <h4>Outlet Profile @Html.ActionLink("Edit", "Edit", "Outlet",new { id = Model.Outlet.Id}, new { @class = "btn btn-outline-primary btn-sm m-2" })</h4>
     </div>
     <hr />
     <h3>Settings</h3>
     <div>
         <h4>
             @Html.ActionLink("Reservation", "EditReservSetting", "Outlet", null, new { @class = "btn btn-info btn-sm m-2" })
-            @Html.ActionLink("Tables", "Index", "Tables", null, new { @class = "btn btn-info btn-sm m-2" })
+            @Html.ActionLink("Tables", "Index", "Table", null, new { @class = "btn btn-info btn-sm m-2" })
             @Html.ActionLink("Operation Type", "Index", "OperationType", null, new { @class = "btn btn-info btn-sm m-2" })
             @Html.ActionLink("Operation Hour", "Index", "OperationHourSetting", null, new { @class = "btn btn-info btn-sm m-2" })
             @Html.ActionLink("Reservation Exclusion Date", "Index", "ReservExclDate", null, new { @class = "btn btn-info btn-sm m-2" })

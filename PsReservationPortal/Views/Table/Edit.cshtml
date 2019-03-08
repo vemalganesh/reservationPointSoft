@@ -1,0 +1,40 @@
+﻿@model PsReservationPortal.Models.TableModel
+@{
+    ViewBag.Title = "Table Setting - Edit";
+}
+
+<h2>Outlet - Table Settings</h2>
+
+@using (Html.BeginForm("Edit", "Table", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Edit</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m=>m.TableNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.TableNumber, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Pax, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Pax, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.isActive, new { @class = "col-md-2 control-label" })
+        @Html.CheckBoxFor(m => m.isActive, new { @class = "form-check-input" })
+    </div>
+    @Html.HiddenFor(m => m.Id, Model.Id)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

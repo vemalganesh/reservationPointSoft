@@ -39,7 +39,7 @@ namespace PsReservationPortal.Controllers
             {
                 outlet = GetOneOutlet(id.Value);
             }
-             
+            ViewBag.Tables = _context.Table.Where(x => x.OutletId == id).ToList();
             OutletDashboardViewModel vm = new OutletDashboardViewModel();
             vm.Outlet = outlet;
             return View(vm);

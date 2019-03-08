@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Api\AdminController.cs" />
     <Compile Include="Controllers\Api\CompanyAPIController.cs" />
+    <Compile Include="Controllers\Api\ReservationController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\TableController.cs" />
     <Compile Include="Controllers\ReservExclDayController.cs" />
@@ -220,6 +221,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MessageHandler\APIKeyMessageHandler.cs" />
     <Compile Include="Migrations\201812310725355_InitialMigration.cs" />
     <Compile Include="Migrations\201812310725355_InitialMigration.Designer.cs">
       <DependentUpon>201812310725355_InitialMigration.cs</DependentUpon>
@@ -300,8 +302,13 @@
     <Compile Include="Migrations\201903060418036_UpdateOperationTypeModelStructure.Designer.cs">
       <DependentUpon>201903060418036_UpdateOperationTypeModelStructure.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903070947238_ApiKeyHandler.cs" />
+    <Compile Include="Migrations\201903070947238_ApiKeyHandler.Designer.cs">
+      <DependentUpon>201903070947238_ApiKeyHandler.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ApiKeyModel.cs" />
     <Compile Include="Models\CustTableModel.cs" />
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\OperationTypeModel.cs" />
@@ -3262,6 +3269,9 @@
     <EmbeddedResource Include="Migrations\201903060418036_UpdateOperationTypeModelStructure.resx">
       <DependentUpon>201903060418036_UpdateOperationTypeModelStructure.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903070947238_ApiKeyHandler.resx">
+      <DependentUpon>201903070947238_ApiKeyHandler.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -3301,6 +3311,13 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild" Condition="!$(Disable_CopyWebApplication) And '$(OutDir)' != '$(OutputPath)'">
+    <ItemGroup>
+      <RoslynFiles Include="$(CscToolPath)\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
+    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

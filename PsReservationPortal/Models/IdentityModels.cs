@@ -27,6 +27,7 @@ namespace PsReservationPortal.Models
         public DbSet<ReservationExclusionDayModel> ReservationExclusionDay { get; set; }
         public DbSet<ReservationExclusionDateModel> ReservationExclusionDate { get; set; }
         public DbSet<TableModel> Table { get; set; }
+        public DbSet<ApiKeyModel> ApiKey { get; set; }
         public DbSet<DinerModel> Diner { get; set; }
         public DbSet<ReservationOrderModel> ReservationOrder { get; set; }
         public DbSet<OperationHourSettingModel> OperationHourSetting { get; set; }

@@ -66,12 +66,18 @@ namespace PsReservationPortal.Controllers
         
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
 
-            var company = GetUserCompany();
-            var users = _context.Users.ToList();
             CompanyDashboardViewModel vm = new CompanyDashboardViewModel();
+            var userId = User.Identity.GetUserId();
+            var company = GetUserCompany();
+            var apiKey = GetApiKey(company.Id);
+                
+            
+            var users = _context.Users.ToList();
+           
+           
             List<OutletModel> outlets = GetOutletsUserAssociatedWith(company.Id);
+            
             List<UserInfoViewModel> staffs = new List<UserInfoViewModel>();
 
             foreach (UserExtraInfoModel user in company.UserExtraInfos)
@@ -91,10 +97,13 @@ namespace PsReservationPortal.Controllers
                 userdetail.UserRoles = GetUserRoles(user.UserId);
                 staffs.Add(userdetail);
             }
-            
+
+            ViewBag.ApiKey = apiKey;
             vm.Outlets = outlets;
             vm.Users = staffs;
             vm.Company = company;
+         
+
             return View(vm);
         }
         
@@ -158,7 +167,10 @@ namespace PsReservationPortal.Controllers
         private List<OutletModel> GetOutletsUserAssociatedWith(long companyid)
         {
             List<OutletModel> outletlist = new List<OutletModel>();
-            outletlist = _context.Outlet.Where(c => c.Company.Id == companyid).ToList();
+            if (!companyid.Equals(null))
+            {
+                outletlist = _context.Outlet.Where(c => c.Company.Id == companyid).ToList();
+            }
             return outletlist;
         }
 
@@ -205,11 +217,49 @@ namespace PsReservationPortal.Controllers
             return company;
         }
 
+        private string GetApiKey(long Compid)
+        {
+            var CompanyKey = _context.ApiKey.FirstOrDefault(c => c.Company_Id == Compid);
+            if (CompanyKey != null)
+            {
+                return CompanyKey.ApiKey;
+            }
+            return "ApiKey absence";
+        }
+
         private CompanyModel GetCompanyById(long Id)
         {
             var company = _context.Company.FirstOrDefault(x=>x.Id == Id);
 
             return company;
+        }
+
+        public ActionResult GenerateApiKey(int id)
+        {
+          
+
+            List<ApiKeyModel> CompanywithKeys = new List<ApiKeyModel>();
+
+            CompanywithKeys = _context.ApiKey.ToList();
+
+            var CompanyValidation = _context.ApiKey.Where(x => x.Company_Id == id ).ToList();
+
+            if (ModelState.IsValid && CompanyValidation == null || CompanyValidation.Count() == 0)
+            {
+                string guid = System.Guid.NewGuid().ToString();
+                ApiKeyModel keyList = new ApiKeyModel();
+
+                keyList.Company_Id = id;
+                keyList.ApiKey = guid;
+
+                _context.ApiKey.Add(keyList);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+
         }
     }
 }

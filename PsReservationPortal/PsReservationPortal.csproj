@@ -2138,7 +2138,7 @@
     <Content Include="Views\Outlet\AssignOutlet.cshtml" />
     <Content Include="Views\Outlet\Create.cshtml" />
     <Content Include="Views\Outlet\Edit.cshtml" />
-    <Content Include="Views\Company\EditStaffRoles.cshtml" />
+    <Content Include="Views\Company\ManageStaff.cshtml" />
     <Content Include="Views\Outlet\Index.cshtml" />
     <Content Include="Views\ReservExclDay\Edit.cshtml" />
     <Content Include="Views\Outlet\EditReservSetting.cshtml" />

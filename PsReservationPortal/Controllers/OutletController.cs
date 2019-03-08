@@ -28,14 +28,23 @@ namespace PsReservationPortal.Controllers
             _context = new ApplicationDbContext();
         }
         
-        public ActionResult Index()
+        public ActionResult Index(long? id)
         {
-            var outlet = GetOutletUserAssociated();
+            var outlet = new OutletModel();
+            if (!id.HasValue)
+            {
+                outlet = GetOutletUserAssociated();
+            }
+            else
+            {
+                outlet = GetOneOutlet(id.Value);
+            }
+             
             OutletDashboardViewModel vm = new OutletDashboardViewModel();
             vm.Outlet = outlet;
             return View(vm);
         }
-
+        
         public ActionResult Create()
         {
             return View();

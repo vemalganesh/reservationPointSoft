@@ -24,7 +24,7 @@ namespace PsReservationPortal.Models
         
         public DateTime ReserveTime { get; set; }
 
-        public TableModel TableId { get; set; }
+        public virtual TableModel TableId { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
 

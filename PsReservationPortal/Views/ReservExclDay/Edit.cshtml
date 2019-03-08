@@ -1,0 +1,87 @@
+﻿@model PsReservationPortal.Models.ReservationExclusionDayModel
+@{
+    ViewBag.Title = "Reservation Exclusion Day Setting";
+}
+
+<h2>Outlet - Reservation Settings</h2>
+
+@using (Html.BeginForm("Edit", "ReservExclDay", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Settings for individual operation days.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Monday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Monday" id="Monday" class="form-control">
+                <option value="1" @(Model.Monday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Monday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Tuesday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Tuesday" id="Tuesday" class="form-control">
+                <option value="1" @(Model.Tuesday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Tuesday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Wednesday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Wednesday" id="Wednesday" class="form-control">
+                <option value="1" @(Model.Wednesday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Wednesday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Thursday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Thursday" id="Thursday" class="form-control">
+                <option value="1" @(Model.Thursday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Thursday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Friday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Friday" id="Friday" class="form-control">
+                <option value="1" @(Model.Friday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Friday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Saturday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Saturday" id="Saturday" class="form-control">
+                <option value="1" @(Model.Saturday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Saturday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Sunday, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="Sunday" id="Sunday" class="form-control">
+                <option value="1" @(Model.Sunday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Open ? "selected" : "")>Open</option>
+                <option value="0" @(Model.Sunday == PsReservationPortal.Models.ReservationExclusionDayModel.OpenClose.Close ? "selected" : "")>Close</option>
+            </select>
+        </div>
+    </div>
+    @Html.HiddenFor(m=>m.Id, Model.Id)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

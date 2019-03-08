@@ -25,6 +25,8 @@ namespace PsReservationPortal.Models
 
         public DateTime DateTimeCreated { get; set; }
 
-        public OutletModel OutletId { get; set; }
+        [ForeignKey("Outlet")]
+        public long OutletId { get; set; }
+        public virtual OutletModel Outlet { get; set; }
     }
 }

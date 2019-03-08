@@ -1,0 +1,34 @@
+﻿@model PsReservationPortal.ViewModels.EditUserViewModel
+@{
+    ViewBag.Title = "Manage Staff";
+}
+
+<style>
+    div .form-group{
+        margin-left:20px;
+    }
+    #btnSaveUser{
+        margin-left:20px;
+        min-width:80px;
+    }
+</style>
+
+<h4>Change Staff Roles</h4>
+<hr />
+@using (Html.BeginForm("EditStaffRoles", "Company", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label>Staff Email</label><br />
+        <input readonly value="@Model.UserEmail" class="form-control"/>
+        <input hidden value="@Model.UserId" name="userId" id="userId"/>
+    </div>
+    <div class="form-group">
+        <label>Roles</label>
+        @Html.DropDownList("rolesid", (MultiSelectList)Model.UserRoles, new { @class = "form-control", multiple = "multiple" })
+        <small class="form-text text-muted">Ctrl+click to select multiple</small>
+    </div>
+    @*Suspend staff / make staff inactive function*@
+    <button id="submit" type="submit" class="btn btn-primary mb-2">Save</button>
+}
+

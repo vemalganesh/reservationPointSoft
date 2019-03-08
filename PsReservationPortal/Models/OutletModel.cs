@@ -44,14 +44,19 @@ namespace PsReservationPortal.Models
 
         public DateTime DateTimeUpdated { get; set; }
 
-        public CompanyModel Company { get; set; }
+        [ForeignKey("Company")]
+        public long CompanyId { get; set; }
 
-        public ReservationHourSettingModel ReservationHourSettingId { get; set; }
+        public virtual CompanyModel Company { get; set; }
 
-        public ReservationExclusionDayModel ReservationDaySettingId { get; set; }
+        public virtual ICollection<ReservationExclusionDateModel> ReservationExclusionDates { get; set; }
 
-        public ICollection<UserExtraInfoModel> Managers { get; set; }
+        public virtual ICollection<OperationHourSettingModel> OperationHourSettings { get; set; }
         
-        public ICollection<TableModel> Tables { get; set; }
+        public virtual ReservationExclusionDayModel ReservationExclusionDay { get; set; }
+
+        public virtual ICollection<UserExtraInfoModel> Managers { get; set; }
+
+        public virtual ICollection<TableModel> Tables { get; set; }
     }
 }

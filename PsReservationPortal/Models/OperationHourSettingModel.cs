@@ -7,22 +7,29 @@ using System.Web;
 
 namespace PsReservationPortal.Models
 {
-    [Table("Table")]
-    public class TableModel
+    [Table("OperationHourSetting")]
+    public class OperationHourSettingModel
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
+
+        public Days Day { get; set; }
         
-        public string TableNumber { get; set; }
-        
-        public int Pax { get; set; }
-        
-        public bool isActive { get; set; }
+        public int StartHour { get; set; }
+
+        public int EndHour { get; set; }
+
+        public int StartMinute { get; set; }
+
+        public int EndMinute { get; set; }
 
         [ForeignKey("Outlet")]
         public long OutletId { get; set; }
-
         public virtual OutletModel Outlet { get; set; }
+
+        [ForeignKey("OperationType")]
+        public int OperationTypeId { get; set; }
+        public virtual OperationTypeModel OperationType { get; set; }
 
         public DateTime DateTimeCreated { get; set; }
 

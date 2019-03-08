@@ -16,14 +16,14 @@ namespace PsReservationPortal.Models
         public string Name { get; set; }
 
         [Display(Name = "Allow Reserve?")]
-        public bool isAllowReserve { get; set; }
+        public bool IsAllowReserve { get; set; }
 
         [ForeignKey("Outlet")]
         public long OutletId { get; set; }
         public virtual OutletModel Outlet { get; set; }
 
-        public DateTime DateTimeCreated { get; set; }
-        
-        public DateTime DateTimeUpdated { get; set; }
+        public DateTime Created { get; set; }
+
+        public DateTime Updated { get; set; }
     }
 }

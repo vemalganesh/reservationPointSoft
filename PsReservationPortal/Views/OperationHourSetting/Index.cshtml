@@ -1,0 +1,81 @@
+﻿@model IEnumerable<PsReservationPortal.Models.OperationHourSettingModel>
+@{
+    ViewBag.Title = "Operation Hour Settings";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<style>
+    .form-inline {
+        display: inline;
+    }
+    #usertable_length label{
+        float :left;
+    }
+    #usertable_filter label{
+        float:right;
+    }
+    .input-sm {
+        margin: 0 5px;
+    }
+    .paginate_button {
+        margin: 0 2px;
+    }
+    .cellaligncenter{
+        text-align:center;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    .btn{
+        min-width:80px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>Operation Hour Settings</h2>
+    <hr />
+    <div>
+        <h4>Operation Hour @Html.ActionLink("Add", "Create", "OperationHourSetting",null, new { @class = "btn btn-primary btn-sm m-2" })</h4>
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="table">
+                <thead class="tableheader">
+                    <tr>
+                        <th>Day</th>
+                        <th>Operation Type</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.Day.ToString()</td>
+                        <td>@item.OperationType.Name</td>
+                        <td>@item.StartHour.ToString("00").@item.StartMinute.ToString("00")</td>
+                        <td>@item.EndHour.ToString("00").@item.EndMinute.ToString("00")</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "OperationHourSetting", new { id = item.Id }, new { @class = "btn btn-info btn-sm m-2" })
+                            @Html.ActionLink("Delete", "DeleteSetting", "OperationHourSetting", new { id = item.Id }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to delete this operation hour setting?')" })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>N/A</h4>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>

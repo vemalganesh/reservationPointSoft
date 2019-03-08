@@ -159,7 +159,7 @@ namespace PsReservationPortal.Controllers
                 }
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Company");
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -195,13 +195,13 @@ namespace PsReservationPortal.Controllers
             var roles = _context.Roles.Where(r => r.Users.Any(u => u.UserId == userid)).ToList();
             foreach (var role in roles)
             {
-                if(role.Name == "CompanyAdmin" || role.Name == "Manager")
+                if(role.Name == RoleName.CompanyAdmin || role.Name == RoleName.Manager)
                 associatedroleid = associatedroleid + role.Id + ",";
             }
             if (associatedroleid.EndsWith(","))
                 associatedroleid = associatedroleid.Remove(associatedroleid.Length - 1);
 
-            var allroles = _context.Roles.Where(x => x.Name == "CompanyAdmin" || x.Name == "Manager" || x.Name == "Users").ToList();
+            var allroles = _context.Roles.Where(x => x.Name == RoleName.CompanyAdmin || x.Name == RoleName.Manager || x.Name == RoleName.Users).ToList();
 
             MultiSelectList retmlist = new MultiSelectList(allroles, "Id", "Name", new[] { associatedroleid });
 

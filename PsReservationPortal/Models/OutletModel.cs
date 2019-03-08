@@ -58,5 +58,7 @@ namespace PsReservationPortal.Models
         public virtual ICollection<UserExtraInfoModel> Managers { get; set; }
 
         public virtual ICollection<TableModel> Tables { get; set; }
+
+        public virtual ICollection<OperationTypeModel> OperationTypes { get; set; }
     }
 }

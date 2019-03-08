@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PsReservationPortal.Models.ReservationExclusionDateModel>
+@{
+    ViewBag.Title = "Reservation Exclusion Date Settings";
+}
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<style>
+    .form-inline {
+        display: inline;
+    }
+    #usertable_length label{
+        float :left;
+    }
+    #usertable_filter label{
+        float:right;
+    }
+    .input-sm {
+        margin: 0 5px;
+    }
+    .paginate_button {
+        margin: 0 2px;
+    }
+    .cellaligncenter{
+        text-align:center;
+    }
+    .tableheader {
+        background-color: rgb(48, 98, 177);
+        color: rgb(247, 244, 244);
+    }
+    .btn{
+        min-width:80px;
+    }
+</style>
+
+<div class="container-fluid">
+    <h2>Reservation - Exclusion Date Settings</h2>
+    <hr />
+    <div>
+        <h4>Exclusion Date @Html.ActionLink("Add", "Create", "ReservExclDate", null, new { @class = "btn btn-primary btn-sm m-2" })</h4>
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-hover table-sm" id="table">
+                <thead class="tableheader">
+                    <tr>
+                        <th>Name</th>
+                        <th>Date From</th>
+                        <th>Date To</th>
+                        <th>Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>@item.ExlusionDateName</td>
+                        <td>@item.DateFrom.ToString(string.Format("dd/MM/yyyy"))</td>
+                        <td>@item.DateTo.ToString(string.Format("dd/MM/yyyy"))</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "ReservExclDate", new { id = item.Id }, new { @class = "btn btn-info btn-sm m-2" })
+                            @Html.ActionLink("Delete", "DeleteSetting", "ReservExclDate", new { id = item.Id }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to delete this exclusion date?')" })
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4>N/A</h4>
+        }
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable();
+    });
+</script>

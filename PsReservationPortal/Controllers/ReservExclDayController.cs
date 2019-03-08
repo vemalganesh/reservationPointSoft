@@ -14,7 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,PointsoftSupport,CompanyAdmin,Manager")]
     public class ReservExclDayController : Controller
     {
         private ApplicationDbContext _context;
@@ -30,15 +30,15 @@ namespace PsReservationPortal.Controllers
         }
 
         //get for view
-        public ActionResult Edit(long outletId)
+        public ActionResult Edit()
         {
-            return View(GetReservExclDayByOutletId(outletId));
+            return View(GetOutletReservExclDay());
         }
         
         [HttpPost]
         public ActionResult Edit(ReservationExclusionDayModel setting)
         {
-            ReservationExclusionDayModel oldSetting = GetReservExclDayByOutletId(setting.Id);
+            ReservationExclusionDayModel oldSetting = GetOutletReservExclDay();
             oldSetting.Monday = setting.Monday;
             oldSetting.Tuesday = setting.Tuesday;
             oldSetting.Wednesday = setting.Wednesday;
@@ -52,22 +52,12 @@ namespace PsReservationPortal.Controllers
 
             return RedirectToAction("Index", "Outlet");
         }
-
-        public OutletModel GetOneOutlet(long Id)
-        {
-            OutletModel outlet = _context.Outlet.FirstOrDefault(a => a.Id == Id);
-            return outlet;
-        }
-
-        public ReservationExclusionDayModel GetReservExclDayByOutletId(long OutletId)
-        {
-            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.Outlet.Id == OutletId);
-            return setting;
-        }
         
-        public ReservationExclusionDayModel GetOneSetting(long id)
+        public ReservationExclusionDayModel GetOutletReservExclDay()
         {
-            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.Id == id);
+            var userId = User.Identity.GetUserId();
+            var outlet = _context.Outlet.FirstOrDefault(x=>x.Managers.Any(z=>z.UserId == userId));
+            ReservationExclusionDayModel setting = _context.ReservationExclusionDay.FirstOrDefault(a => a.Outlet.Id == outlet.Id);
             return setting;
         }
     }

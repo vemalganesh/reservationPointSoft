@@ -1,0 +1,62 @@
+﻿@model PsReservationPortal.Models.ReservationExclusionDateModel
+@{
+    ViewBag.Title = "Reservation Exclusion Date Setting";
+}
+
+<h2>Outlet - Reservation Settings</h2>
+
+@using (Html.BeginForm("Edit", "ReservExclDate", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Settings for the reservation exclusion date.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.ExlusionDateName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.ExlusionDateName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateFrom, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @(Html.Kendo().DatePickerFor(x => x.DateFrom).Format("dd/MM/yyyy").DateInput())
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateTo, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @(Html.Kendo().DatePickerFor(x=>x.DateTo).Format("dd/MM/yyyy").DateInput())
+        </div>
+    </div>
+    @Html.HiddenFor(m => m.Id, Model.Id)
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $("#DateFrom").kendoValidator({
+        rules: {
+            date: function (input) {
+                var d = kendo.parseDate(input.val(), "dd/MM/yyyy");
+                return d instanceof Date;
+            }
+        }
+    });
+
+    $("#DateTo").kendoValidator({
+        rules: {
+            date: function (input) {
+                var d = kendo.parseDate(input.val(), "dd/MM/yyyy");
+                return d instanceof Date;
+            }
+        }
+    });
+</script>
+}

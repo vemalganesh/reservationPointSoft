@@ -18,7 +18,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PsReservationPortal.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin,PointsoftSupport,CompanyAdmin,Manager")]
     public class OutletController : Controller
     {
         private ApplicationDbContext _context;
@@ -39,7 +39,7 @@ namespace PsReservationPortal.Controllers
             {
                 outlet = GetOneOutlet(id.Value);
             }
-             
+            ViewBag.Tables = _context.Table.Where(x => x.OutletId == id).ToList();
             OutletDashboardViewModel vm = new OutletDashboardViewModel();
             vm.Outlet = outlet;
             return View(vm);
@@ -166,9 +166,9 @@ namespace PsReservationPortal.Controllers
             return RedirectToAction("Index","Company");
         }
 
-        public ActionResult EditReservSetting(long outletId)
+        public ActionResult EditReservSetting()
         {
-            return View(GetOneOutlet(outletId));
+            return View(GetOutletUserAssociated());
         }
 
         [HttpPost]
@@ -184,7 +184,7 @@ namespace PsReservationPortal.Controllers
             return RedirectToAction("Index", "Outlet");
         }
 
-        public OutletModel GetOneOutlet(long id)
+        private OutletModel GetOneOutlet(long id)
         {
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
@@ -192,14 +192,14 @@ namespace PsReservationPortal.Controllers
             return outlet;
         }
 
-        public List<OutletModel>GetAllOutlets()
+        private List<OutletModel>GetAllOutlets()
         {
             var userId = User.Identity.GetUserId();
             var company = _context.UserExtraInfo.FirstOrDefault(a => a.UserId == userId).Companies.FirstOrDefault();
             return _context.Outlet.Where(a => a.Company.Id == company.Id).ToList();
         }
 
-        public OutletModel GetOutletUserAssociated()
+        private OutletModel GetOutletUserAssociated()
         {
             var userId = User.Identity.GetUserId();
             var outlet = _context.Outlet.Where(a => a.Managers.Any(b => b.UserId == userId)).FirstOrDefault();

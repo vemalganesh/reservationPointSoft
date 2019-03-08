@@ -37,7 +37,7 @@
     <h2>Dashboard</h2>
     <hr />
     <div>
-        <h4>Company Profile @Html.ActionLink("Edit", "Edit", "Company",new { id = Model.Company.Id }, new { @class = "btn btn-primary btn-sm m-2" })</h4>
+        <h4>Company Profile @Html.ActionLink("Edit", "Edit", "Company",new { id = Model.Company.Id }, new { @class = "btn btn-outline-primary btn-sm m-2" })</h4>
     </div>
     <hr />
     <div>
@@ -88,17 +88,17 @@
     </div>
     <hr />
     <div>
-        <h4>Outlet Listing @Html.ActionLink("Add", "Create", "Outlet",null, new { @class = "btn btn-primary btn-sm m-2" })</h4>
+        <h4>Outlet Listing @Html.ActionLink("Add Outlet", "Create", "Outlet",null, new { @class = "btn btn-info btn-sm m-2" })</h4>
         @if (Model.Outlets.Count > 0)
         {
             <table class="table table-bordered table-hover table-sm" id="outlettable">
                 <thead class="tableheader">
                     <tr>
-                        <th style="width:10%;">Name</th>
-                        <th style="width:10%;">Location</th>
+                        <th style="width:20%;">Name</th>
+                        <th style="width:20%;">Location</th>
                         <th style="width:30%;">Address</th>
                         <th style="width:20%;">Description</th>
-                        <th style="width:30%;">Functions</th>
+                        <th>Functions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -110,7 +110,6 @@
                             <td>@outlet.Address</td>
                             <td>@outlet.Description</td>
                             <td>
-                                @Html.ActionLink("Manage", "Index", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-outline-info m-2" })
                                 @Html.ActionLink("Edit", "Edit", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2" })
                                 @Html.ActionLink("Delete", "DeleteOutlet", "Outlet", new { id = outlet.Id }, new { @class = "btn btn-info btn-sm m-2", onclick = "return confirm('Are you sure you wish to delete this outlet?')" })
                             </td>
